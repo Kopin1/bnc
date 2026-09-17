@@ -1,0 +1,26 @@
+---
+import { stats } from '../data/site';
+---
+
+<!-- A stat bar, not a feature list. The hero already states what the weekend
+     is; this says how much of it there is, which nothing else on the page
+     does. Hairline-divided so it reads as one instrument rather than six
+     cards, and every figure comes from the data files. -->
+<section class="bg-ink py-10 md:py-14" data-reveal>
+  <div class="shell">
+    <dl class="grid grid-cols-3 gap-px overflow-hidden bg-bone/12 md:grid-cols-6">
+      {
+        stats.map((stat) => (
+          <div class="flex flex-col items-center gap-1 bg-ink px-2 py-6 text-center md:py-7">
+            <dd class="font-display text-[clamp(1.75rem,6vw,2.75rem)] leading-none text-gold">
+              {stat.value}
+            </dd>
+            <dt class="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-muted">
+              {stat.label}
+            </dt>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
