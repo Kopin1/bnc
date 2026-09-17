@@ -1,0 +1,145 @@
+---
+import { Font } from 'astro:assets';
+import { event, siteMeta } from '../data/event';
+import { priceConfirmed, currency, allPasses } from '../data/passes';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileBookBar from '../components/MobileBookBar.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Set on the home page so nav links use in-page anchors. */
+  isHome?: boolean;
+}
+
+const { title, description = siteMeta.description, isHome = false } = Astro.props;
+
+const pageTitle = title ? `${title} — ${event.shortName} ${event.year}` : siteMeta.title;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(siteMeta.ogImage, Astro.site).href;
+
+/**
+ * schema.org Event. Offers are only emitted once prices are confirmed, so we
+ * never publish stale money — see `priceConfirmed` in src/data/passes.ts.
+ */
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: `${event.name} ${event.year}`,
+  description: siteMeta.description,
+  startDate: event.startDate,
+  endDate: event.endDate,
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  image: [ogImage],
+  url: canonical,
+  location: {
+    '@type': 'Place',
+    name: event.venue.name,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: event.venue.street,
+      postalCode: event.venue.postalCode,
+      addressLocality: event.venue.city,
+      addressCountry: 'SE',
+    },
+  },
+  organizer: {
+    '@type': 'Organization',
+    name: event.organizer.name,
+    url: event.organizer.url,
+    email: event.contact.email,
+  },
+  ...(priceConfirmed
+    ? {
+        offers: allPasses.map((p) => ({
+          '@type': 'Offer',
+          name: p.name,
+          price: p.price,
+          priceCurrency: currency,
+          url: event.bookingUrl,
+          availability: 'https://schema.org/InStock',
+        })),
+      }
+    : {}),
+};
+---
+
+<!doctype html>
+<html lang={siteMeta.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/images/brand/bnc-logo.png" />
+    <meta name="theme-color" content="#100310" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={event.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_GB" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <Font cssVariable="--font-display" preload />
+    <Font cssVariable="--font-body" preload />
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} is:inline />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded focus:bg-gold focus:px-4 focus:py-2 focus:font-bold focus:text-ink"
+    >
+      Skip to content
+    </a>
+
+    <Header isHome={isHome} />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <Footer />
+    <MobileBookBar />
+
+    <script>
+      // Two tiny behaviours, no framework: mark that JS is available (so the
+      // reveal styles only apply when they can actually be undone), then
+      // reveal sections as they scroll in.
+      document.documentElement.classList.add('js');
+
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const targets = document.querySelectorAll('[data-reveal]');
+
+      if (reduce || !('IntersectionObserver' in window)) {
+        targets.forEach((el) => el.classList.add('is-visible'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.05 },
+        );
+        targets.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+---
+import { Image } from 'astro:assets';
+import type { Artist } from '../data/artists';
+import { artistImage } from '../data/artists';
+
+interface Props {
+  artist: Artist;
+  /** Large portrait treatment for the top row. */
+  feature?: boolean;
+  /** Only the first row should be eager — everything else lazy-loads. */
+  eager?: boolean;
+}
+
+const { artist, feature = false, eager = false } = Astro.props;
+const image = artistImage(artist.slug);
+
+const place = [artist.city, artist.country].filter(Boolean).join(', ');
+---
+
+<figure class="group relative isolate overflow-hidden bg-aubergine-raised">
+  {
+    image ? (
+      <Image
+        src={image}
+        alt={artist.name}
+        widths={feature ? [400, 640, 900] : [280, 400, 560]}
+        sizes={
+          feature
+            ? '(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw'
+            : '(min-width: 1024px) 30vw, (min-width: 640px) 30vw, 45vw'
+        }
+        loading={eager ? 'eager' : 'lazy'}
+        fetchpriority={eager ? 'high' : 'auto'}
+        class={`w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] ${
+          feature ? 'aspect-[4/5]' : 'aspect-square'
+        }`}
+      />
+    ) : (
+      <div class={`w-full bg-plum ${feature ? 'aspect-[4/5]' : 'aspect-square'}`} />
+    )
+  }
+
+  <!-- Scrim sized to the text block, not the whole image, so the photograph
+       stays visible and the name still clears contrast. -->
+  <div
+    class="pointer-events-none absolute inset-x-0 bottom-0 h-3/5 bg-[linear-gradient(to_top,rgba(16,3,16,0.95)_10%,rgba(16,3,16,0.6)_45%,transparent_100%)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <figcaption class="absolute inset-x-0 bottom-0 p-4 md:p-5">
+    <p class="text-[0.625rem] font-bold uppercase tracking-[0.2em] text-pink">
+      {artist.discipline}
+    </p>
+    <h3
+      class={`mt-1.5 uppercase text-bone ${
+        feature ? 'text-[clamp(1.25rem,2.4vw,1.9rem)]' : 'text-[clamp(1rem,1.9vw,1.25rem)]'
+      }`}
+    >
+      {artist.name}
+    </h3>
+    <p class="mt-1 text-xs text-muted">
+      {place}{artist.descriptor && <span class="text-gold"> · {artist.descriptor}</span>}
+    </p>
+  </figcaption>
+</figure>

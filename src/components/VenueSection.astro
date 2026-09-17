@@ -1,0 +1,78 @@
+---
+import { event } from '../data/event';
+import { mapsUrl } from '../data/site';
+import SectionHeading from './SectionHeading.astro';
+import Button from './Button.astro';
+
+const { venue } = event;
+---
+
+<section id="venue" class="bg-aubergine py-24 md:py-32" data-reveal>
+  <div class="shell grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20">
+    <div>
+      <SectionHeading eyebrow="Venue" title="Central Stockholm" />
+
+      <address class="mt-8 not-italic">
+        <p class="font-display text-2xl uppercase text-gold">{venue.name}</p>
+        <p class="mt-3 text-lg text-bone">{venue.street}</p>
+        <p class="text-lg text-bone">{venue.postalCode} {venue.city}</p>
+      </address>
+
+      <p class="mt-6 max-w-md text-muted">
+        Everything happens in one building — {venue.rooms.length} workshop rooms during the day and
+        two dance floors at night. Five minutes from Hötorget and T-Centralen.
+      </p>
+
+      <div class="mt-9 flex flex-wrap gap-4">
+        <Button href={mapsUrl} external>Get directions</Button>
+        <Button href={`mailto:${event.contact.email}`} variant="secondary">Ask a question</Button>
+      </div>
+    </div>
+
+    <!-- A drawn placemark rather than an embedded map: no third-party script,
+         no cookie banner, no layout shift. The link does the real work. -->
+    <a
+      href={mapsUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="group relative block overflow-hidden border border-bone/15 no-underline"
+      aria-label={`Open ${venue.name} in Google Maps`}
+    >
+      <div
+        class="flex aspect-[4/3] items-center justify-center bg-[radial-gradient(90%_80%_at_50%_45%,#3d0b39_0%,#1a0518_70%)]"
+      >
+        <div
+          class="absolute inset-0 opacity-[0.16]"
+          style="background-image:
+            linear-gradient(to right, #f7be49 1px, transparent 1px),
+            linear-gradient(to bottom, #f7be49 1px, transparent 1px);
+            background-size: 56px 56px;"
+          aria-hidden="true"
+        >
+        </div>
+
+        <div class="relative text-center">
+          <svg
+            width="52"
+            height="52"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+            class="mx-auto text-pink transition-transform duration-500 group-hover:-translate-y-1"
+          >
+            <path
+              d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"
+              stroke="currentColor"
+              stroke-width="1.6"
+            ></path>
+            <circle cx="12" cy="10" r="2.6" fill="currentColor"></circle>
+          </svg>
+          <p class="mt-4 font-display text-lg uppercase text-bone">{venue.street}</p>
+          <p class="mt-1 text-xs font-bold uppercase tracking-[0.18em] text-gold">
+            Open in Maps →
+          </p>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>

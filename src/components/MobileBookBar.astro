@@ -1,0 +1,46 @@
+---
+import { event } from '../data/event';
+import { mainPasses, formatPrice } from '../data/passes';
+
+const cheapest = [...mainPasses].sort((a, b) => a.price - b.price)[0];
+---
+
+<!-- Sticky booking CTA for small screens only. Hidden until the user has
+     scrolled past the hero so it never covers the hero's own CTA. -->
+<div
+  id="book-bar"
+  hidden
+  class="fixed inset-x-0 bottom-0 z-40 border-t border-gold/25 bg-ink/95 backdrop-blur-md lg:hidden"
+  style="padding-bottom: env(safe-area-inset-bottom, 0px);"
+>
+  <div class="flex items-center justify-between gap-4 px-4 py-3">
+    <div class="min-w-0">
+      <p class="truncate text-xs font-bold uppercase tracking-[0.14em] text-gold">
+        {event.dateLabelShort}
+      </p>
+      <p class="truncate text-xs text-muted">{event.city} · From {formatPrice(cheapest.price)}</p>
+    </div>
+    <a
+      href={event.bookingUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="shrink-0 bg-gold px-5 py-3 text-xs font-bold uppercase tracking-[0.14em] text-ink no-underline"
+    >
+      Book now
+    </a>
+  </div>
+</div>
+
+<script>
+  const bar = document.getElementById('book-bar');
+  if (bar) {
+    // Reveal once the hero is out of the way. Cheap: one scroll listener,
+    // passive, and it only toggles an attribute.
+    const show = () => {
+      const past = window.scrollY > window.innerHeight * 0.7;
+      if (bar.hidden === past) bar.hidden = !past;
+    };
+    show();
+    window.addEventListener('scroll', show, { passive: true });
+  }
+</script>

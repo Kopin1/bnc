@@ -1,0 +1,15 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# generated / local
+.DS_Store
+*.log
+.env
+.env.production
+
+# Astro font + image caches
+node_modules/.astro/

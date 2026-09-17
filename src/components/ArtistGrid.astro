@@ -1,0 +1,28 @@
+---
+import { teachingArtists } from '../data/artists';
+import SectionHeading from './SectionHeading.astro';
+import ArtistCard from './ArtistCard.astro';
+
+// Rhythm without gaps: three large portraits on top, the rest square beneath.
+// Both blocks are three columns wide, so the grid always tiles cleanly.
+const featured = teachingArtists.filter((a) => a.feature);
+const rest = teachingArtists.filter((a) => !a.feature);
+---
+
+<section id="artists" class="bg-aubergine py-24 md:py-32" data-reveal>
+  <div class="shell">
+    <SectionHeading
+      eyebrow="Line-up"
+      title="Artists & teachers"
+      lede="Instructors from Barcelona, Havana, Germany and Stockholm teaching Bachata and Salsa Cubana all weekend."
+    />
+
+    <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {featured.map((artist, i) => <ArtistCard artist={artist} feature eager={i === 0} />)}
+    </div>
+
+    <div class="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-3">
+      {rest.map((artist) => <ArtistCard artist={artist} />)}
+    </div>
+  </div>
+</section>

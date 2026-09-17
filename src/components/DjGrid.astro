@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import { djs, djImage } from '../data/djs';
+import SectionHeading from './SectionHeading.astro';
+---
+
+<section id="djs" class="bg-ink py-24 md:py-32" data-reveal>
+  <div class="shell">
+    <SectionHeading
+      eyebrow="Music"
+      title="DJs"
+      lede="Bachata and Salsa Cubana on two floors, Friday and Saturday night."
+    />
+
+    <!-- Tighter and more compact than the artist grid on purpose: the DJs are
+         a supporting act on the page, not a second headline block. -->
+    <ul class="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5" role="list">
+      {
+        djs.map((dj) => {
+          const image = djImage(dj.slug);
+          return (
+            <li class="group relative isolate overflow-hidden bg-aubergine-raised">
+              {image ? (
+                <Image
+                  src={image}
+                  alt={dj.name}
+                  widths={[220, 340, 440]}
+                  sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 45vw"
+                  loading="lazy"
+                  class="aspect-[3/4] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                />
+              ) : (
+                <div class="aspect-[3/4] w-full bg-plum" />
+              )}
+              <div
+                class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-[linear-gradient(to_top,rgba(16,3,16,0.95),transparent)]"
+                aria-hidden="true"
+              />
+              <div class="absolute inset-x-0 bottom-0 p-3.5">
+                <h3 class="text-base uppercase leading-tight text-bone">{dj.name}</h3>
+                <p class="mt-1 text-[0.625rem] font-bold uppercase tracking-[0.16em] text-gold">
+                  {dj.discipline}
+                </p>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,24 @@
+---
+import { schedule, workshopCount } from '../data/schedule';
+import SectionHeading from './SectionHeading.astro';
+import DayCard from './DayCard.astro';
+import Button from './Button.astro';
+---
+
+<section id="program" class="bg-ink py-24 md:py-32" data-reveal>
+  <div class="shell">
+    <SectionHeading
+      eyebrow="Program"
+      title="What the weekend looks like"
+      lede={`${workshopCount} workshops across three days, two party nights and a show. Here is the rhythm of it.`}
+    />
+
+    <div class="mt-14 grid gap-5 md:grid-cols-3">
+      {schedule.map((day, i) => <DayCard day={day} index={i} />)}
+    </div>
+
+    <div class="mt-12">
+      <Button href="/program" variant="ghost">See full workshop schedule →</Button>
+    </div>
+  </div>
+</section>

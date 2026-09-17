@@ -1,0 +1,117 @@
+---
+import { event } from '../data/event';
+import Button from './Button.astro';
+
+const { heroVideo } = event;
+const heroPoster = '/images/event/hero-poster.jpg';
+---
+
+<section class="relative isolate flex min-h-[88svh] items-center overflow-hidden bg-aubergine">
+  <!-- Layer 1 — brand light. This is the background until a video is supplied,
+       and it still reads well behind one. -->
+  <div
+    class="absolute inset-0 -z-30"
+    style="background:
+      radial-gradient(120% 90% at 78% 28%, #5c1442 0%, #2a0a21 46%, #140412 100%),
+      linear-gradient(#140412, #140412);"
+    aria-hidden="true"
+  >
+  </div>
+
+  {
+    /* Layer 2 — the owner's video, once supplied. `enabled` stays false until
+       the file exists, so we never request a missing asset. Reduced-motion
+       users are served the poster only, via the media query below. */
+    heroVideo.enabled && (
+      <video
+        class="absolute inset-0 -z-20 h-full w-full object-cover opacity-55"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster={heroPoster}
+        aria-hidden="true"
+        data-hero-video
+      >
+        {heroVideo.sources.map((s) => (
+          <source src={s.src} type={s.type} />
+        ))}
+      </video>
+    )
+  }
+
+  <!-- Layer 3 — legibility scrim. Always present so copy contrast never
+       depends on what the video happens to be showing. -->
+  <div
+    class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(16,3,16,0.92)_0%,rgba(16,3,16,0.72)_45%,rgba(16,3,16,0.35)_100%)]"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-[linear-gradient(to_bottom,transparent,#100310)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="shell relative w-full py-20 md:py-28">
+    <div class="grid items-center gap-12 lg:grid-cols-[1.5fr_1fr]">
+      <div>
+        <p class="eyebrow text-pink">
+          {event.city}, {event.country}
+        </p>
+
+        <h1 class="mt-5 text-[clamp(2.5rem,7vw,5.5rem)] uppercase text-bone">
+          Bachata &amp;<br />
+          <span class="text-gold">Cuban Weekend</span>
+        </h1>
+
+        <!-- Dates get their own strong typographic treatment. -->
+        <p
+          class="mt-7 inline-block border-y border-gold/40 py-3 font-display text-[clamp(1.25rem,3.6vw,2rem)] uppercase tracking-[0.04em] text-bone"
+        >
+          {event.dateLabel}
+        </p>
+
+        <p class="mt-7 max-w-lg text-lg leading-relaxed text-muted md:text-xl">
+          {event.tagline}
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center gap-4">
+          <Button href={event.bookingUrl} external size="lg">Book now</Button>
+          <Button href="#the-weekend" variant="secondary" size="lg">Explore the weekend</Button>
+        </div>
+      </div>
+
+      <!-- The logo is the hero image until the owner supplies footage. -->
+      <div class="hidden justify-self-center lg:block">
+        <img
+          src="/images/brand/bnc-logo.png"
+          alt=""
+          width="677"
+          height="725"
+          class="w-full max-w-[22rem] drop-shadow-[0_0_60px_rgba(247,190,73,0.28)]"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Anyone who asks for reduced motion gets the poster frame, never playback. */
+  @media (prefers-reduced-motion: reduce) {
+    [data-hero-video] {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Belt and braces: some browsers still autoplay despite the OS setting.
+  const video = document.querySelector<HTMLVideoElement>('[data-hero-video]');
+  if (video && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    video.pause();
+    video.removeAttribute('autoplay');
+  }
+</script>

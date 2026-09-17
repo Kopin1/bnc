@@ -1,0 +1,43 @@
+---
+import type { ScheduleDay } from '../data/schedule';
+
+interface Props {
+  day: ScheduleDay;
+  /** Index drives the alternating accent so the three cards have rhythm. */
+  index: number;
+}
+
+const { day, index } = Astro.props;
+const accent = index === 1 ? 'text-pink' : 'text-gold';
+---
+
+<a
+  href={`/program#${day.id}`}
+  class="group relative flex flex-col justify-between gap-10 border border-bone/15 bg-aubergine-raised p-7 no-underline transition-colors duration-300 hover:border-gold/60 md:p-9"
+>
+  <div>
+    <div class="flex items-baseline justify-between gap-4">
+      <h3 class={`font-display text-[clamp(2rem,4.5vw,2.75rem)] uppercase ${accent}`}>{day.day}</h3>
+      <span class="text-xs font-bold uppercase tracking-[0.16em] text-muted">{day.dateLabel}</span>
+    </div>
+
+    <p class="mt-6 text-lg leading-snug text-bone">{day.summary}</p>
+    <p class="mt-2 text-sm text-muted">{day.subline}</p>
+  </div>
+
+  <span
+    class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-gold"
+  >
+    See the day
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+      class="transition-transform duration-300 group-hover:translate-x-1"
+    >
+      <path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </span>
+</a>

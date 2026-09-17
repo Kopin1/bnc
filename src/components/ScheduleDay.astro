@@ -1,0 +1,149 @@
+---
+import type { ScheduleDay } from '../data/schedule';
+import { timeSlots, sessionAt, eveningSessions, breakAfter } from '../data/schedule';
+import ScheduleItem from './ScheduleItem.astro';
+
+interface Props { day: ScheduleDay }
+const { day } = Astro.props;
+
+const slots = timeSlots(day);
+const rooms = day.rooms;
+const evening = eveningSessions(day);
+
+const categoryLabel: Record<string, string> = {
+  party: 'Party',
+  show: 'Show',
+  dropin: 'Drop-in',
+};
+---
+
+<section id={day.id} class="scroll-mt-28 py-16 md:py-20" data-reveal>
+  <header class="rule flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 pt-8">
+    <h2 class="text-[clamp(2rem,6vw,3.5rem)] uppercase text-gold">{day.day}</h2>
+    <p class="text-sm font-bold uppercase tracking-[0.16em] text-muted">{day.dateLabel}</p>
+  </header>
+
+  <!-- ── Desktop: proper timetable matrix ─────────────────────────────── -->
+  <div class="mt-10 hidden lg:block">
+    <div
+      class="grid gap-px bg-bone/12"
+      style={`grid-template-columns: 7rem repeat(${rooms.length}, minmax(0, 1fr));`}
+    >
+      <div class="bg-ink p-3"><span class="sr-only">Time</span></div>
+      {
+        rooms.map((room) => (
+          <div class="bg-ink p-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-pink">
+            {room}
+          </div>
+        ))
+      }
+
+      {
+        slots.map((slot) => {
+          const gap = breakAfter(day, slot);
+          return (
+            <>
+              <div class="flex flex-col justify-center bg-aubergine-raised p-3 text-center">
+                <span class="font-display text-base text-bone">{slot}</span>
+                <span class="text-xs text-muted">
+                  {day.sessions.find((s) => s.start === slot && s.end)?.end}
+                </span>
+              </div>
+              {rooms.map((room) => {
+                const session = sessionAt(day, slot, room);
+                return (
+                  <div class="bg-aubergine p-4">
+                    {session ? (
+                      <ScheduleItem session={session} />
+                    ) : (
+                      <span class="sr-only">No workshop in {room} at {slot}</span>
+                    )}
+                  </div>
+                );
+              })}
+
+              {gap && (
+                <div
+                  class="bg-plum px-4 py-2.5 text-center text-xs font-bold uppercase tracking-[0.2em] text-cream"
+                  style={`grid-column: span ${rooms.length + 1};`}
+                >
+                  {gap.title} · {gap.start} – {gap.end}
+                </div>
+              )}
+            </>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <!-- ── Mobile / tablet: chronological timeline, no horizontal scroll ── -->
+  <div class="mt-10 lg:hidden">
+    <ol class="space-y-8" role="list">
+      {
+        slots.map((slot) => {
+          const gap = breakAfter(day, slot);
+          const inSlot = rooms
+            .map((room) => ({ room, session: sessionAt(day, slot, room) }))
+            .filter((x) => x.session);
+          const end = day.sessions.find((s) => s.start === slot && s.end)?.end;
+
+          return (
+            <>
+              <li>
+                <p class="rule flex items-baseline gap-3 pt-3 font-display text-lg text-gold">
+                  {slot}
+                  {end && <span class="text-sm font-normal text-muted">– {end}</span>}
+                </p>
+                <ul class="mt-4 space-y-3" role="list">
+                  {inSlot.map(({ room, session }) => (
+                    <li class="border-l-2 border-pink/50 bg-aubergine-raised p-4 pl-4">
+                      <p class="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-pink">
+                        {room}
+                      </p>
+                      <div class="mt-1.5">
+                        <ScheduleItem session={session!} />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+              {gap && (
+                <li class="bg-plum px-4 py-2.5 text-center text-xs font-bold uppercase tracking-[0.2em] text-cream">
+                  {gap.title} · {gap.start} – {gap.end}
+                </li>
+              )}
+            </>
+          );
+        })
+      }
+    </ol>
+  </div>
+
+  <!-- ── Evening: parties, shows, drop-in ─────────────────────────────── -->
+  {
+    evening.length > 0 && (
+      <div class="mt-14">
+        <h3 class="eyebrow">Evening</h3>
+        <ul class="mt-5 divide-y divide-bone/12 border-y border-bone/12" role="list">
+          {evening.map((session) => (
+            <li class="flex flex-wrap items-baseline gap-x-6 gap-y-1 py-4">
+              <span class="w-32 shrink-0 font-display text-base text-gold">
+                {session.start}
+                {session.end && ` – ${session.end}`}
+              </span>
+              <div class="min-w-0 flex-1">
+                <p class="text-bone">{session.title}</p>
+                {session.artist && <p class="text-sm text-muted">{session.artist}</p>}
+                {session.note && <p class="mt-1 text-xs italic text-muted">{session.note}</p>}
+              </div>
+              <span class="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-pink">
+                {categoryLabel[session.category]}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+</section>

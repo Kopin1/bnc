@@ -1,0 +1,146 @@
+---
+import { event } from '../data/event';
+import { nav } from '../data/site';
+
+interface Props { isHome?: boolean }
+const { isHome = false } = Astro.props;
+
+// Off the home page the anchors need to point back at it.
+const links = nav.map((item) => ({
+  ...item,
+  href: isHome && item.href.startsWith('/#') ? item.href.slice(1) : item.href,
+}));
+---
+
+<header class="fixed inset-x-0 top-0 z-50" data-header>
+  <div
+    class="border-b border-bone/10 bg-ink/80 backdrop-blur-md transition-colors duration-300"
+    data-header-bar
+  >
+    <div class="shell flex h-[4.5rem] items-center justify-between gap-4">
+      <a href="/" class="flex items-center gap-3 no-underline" aria-label={`${event.name} — home`}>
+        <img
+          src="/images/brand/bnc-logo.png"
+          alt=""
+          width="44"
+          height="47"
+          class="h-10 w-auto"
+          fetchpriority="high"
+        />
+        <span class="hidden font-display text-lg uppercase tracking-wide text-bone sm:block">
+          B&amp;C Weekend
+        </span>
+      </a>
+
+      <nav aria-label="Main" class="hidden items-center gap-8 lg:flex">
+        {
+          links.map((item) => (
+            <a
+              href={item.href}
+              class="text-xs font-bold uppercase tracking-[0.16em] text-bone no-underline transition-colors hover:text-gold"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+        <a
+          href={event.bookingUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-gold px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-ink no-underline transition-colors hover:bg-gold-soft"
+        >
+          Book now
+        </a>
+      </nav>
+
+      <div class="flex items-center gap-3 lg:hidden">
+        <a
+          href={event.bookingUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hidden bg-gold px-4 py-2 text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-ink no-underline sm:inline-block"
+        >
+          Book
+        </a>
+        <button
+          type="button"
+          id="menu-toggle"
+          class="flex h-11 w-11 items-center justify-center text-bone"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <span class="sr-only">Open menu</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile drawer. Hidden with the `hidden` attribute so it is removed from
+       the a11y tree entirely when closed. -->
+  <div
+    id="mobile-menu"
+    hidden
+    class="border-b border-bone/10 bg-aubergine lg:hidden"
+  >
+    <nav aria-label="Mobile" class="shell flex flex-col py-4">
+      {
+        links.map((item) => (
+          <a
+            href={item.href}
+            data-menu-link
+            class="rule-soft py-4 font-display text-2xl uppercase text-bone no-underline first:border-t-0"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a
+        href={event.bookingUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-4 bg-gold px-6 py-4 text-center text-sm font-bold uppercase tracking-[0.14em] text-ink no-underline"
+      >
+        Book now
+      </a>
+      <p class="mt-5 text-sm text-muted">
+        {event.venue.name} · {event.dateLabel}
+      </p>
+    </nav>
+  </div>
+</header>
+
+<!-- Header is fixed; this reserves its height in the flow. -->
+<div class="h-[4.5rem]" aria-hidden="true"></div>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  if (toggle && menu) {
+    const setOpen = (open: boolean) => {
+      menu.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.querySelector('.sr-only')!.textContent = open ? 'Close menu' : 'Open menu';
+    };
+
+    toggle.addEventListener('click', () => setOpen(Boolean(menu.hidden)));
+
+    // Close after choosing a destination, and on Escape.
+    menu.querySelectorAll('[data-menu-link]').forEach((link) =>
+      link.addEventListener('click', () => setOpen(false)),
+    );
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    // A resize into desktop layout should not leave a stale open drawer.
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
+      if (e.matches) setOpen(false);
+    });
+  }
+</script>

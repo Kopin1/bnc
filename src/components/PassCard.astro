@@ -1,0 +1,71 @@
+---
+import type { Pass } from '../data/passes';
+import { formatPrice, bookingUrlFor } from '../data/passes';
+
+interface Props { pass: Pass }
+const { pass } = Astro.props;
+const featured = pass.featured ?? false;
+---
+
+<article
+  class={`flex flex-col p-7 md:p-9 ${
+    featured
+      ? 'bg-plum text-cream ring-1 ring-plum'
+      : 'border border-plum/25 bg-bone text-plum on-light'
+  }`}
+>
+  <div class="flex items-start justify-between gap-4">
+    <h3 class={`text-[clamp(1.75rem,4vw,2.5rem)] uppercase ${featured ? 'text-gold' : 'text-plum'}`}>
+      {pass.name}
+    </h3>
+    {
+      featured && (
+        <span class="shrink-0 bg-gold px-3 py-1 text-[0.625rem] font-bold uppercase tracking-[0.16em] text-ink">
+          Most popular
+        </span>
+      )
+    }
+  </div>
+
+  <p class={`mt-1 text-sm uppercase tracking-[0.14em] ${featured ? 'text-cream/70' : 'text-plum/70'}`}>
+    {pass.summary}
+  </p>
+
+  <p class={`mt-7 font-display text-[clamp(2.5rem,6vw,3.75rem)] ${featured ? 'text-cream' : 'text-plum'}`}>
+    {formatPrice(pass.price)}
+  </p>
+
+  <ul class={`mt-7 space-y-2.5 text-sm ${featured ? 'text-cream/90' : 'text-plum/85'}`} role="list">
+    {
+      pass.includes.map((item) => (
+        <li class="flex gap-3">
+          <span class={featured ? 'text-gold' : 'text-pink-deep'} aria-hidden="true">
+            +
+          </span>
+          <span>{item}</span>
+        </li>
+      ))
+    }
+    {
+      pass.excludes?.map((item) => (
+        <li class={`flex gap-3 ${featured ? 'text-cream/60' : 'text-plum/60'}`}>
+          <span aria-hidden="true">−</span>
+          <span>
+            {item} <span class="italic">(not included)</span>
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <a
+    href={bookingUrlFor(pass)}
+    target="_blank"
+    rel="noopener noreferrer"
+    class={`mt-9 inline-flex items-center justify-center px-6 py-4 text-xs font-bold uppercase tracking-[0.14em] no-underline transition-colors ${
+      featured ? 'bg-gold text-ink hover:bg-gold-soft' : 'bg-plum text-cream hover:bg-plum-light'
+    }`}
+  >
+    Book {pass.name}<span class="sr-only"> — opens Tickster in a new tab</span>
+  </a>
+</article>

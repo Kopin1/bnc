@@ -1,0 +1,60 @@
+---
+import { mainPasses, singleTickets, formatPrice, priceConfirmed } from '../data/passes';
+import { event } from '../data/event';
+import SectionHeading from './SectionHeading.astro';
+import PassCard from './PassCard.astro';
+---
+
+<!-- The one light section on the page. It breaks up a long dark one-pager and
+     makes the conversion block impossible to scroll past. -->
+<section id="passes" class="on-light bg-cream py-24 text-plum md:py-32" data-reveal>
+  <div class="shell">
+    <SectionHeading
+      eyebrow="Passes"
+      title="Book your weekend"
+      lede="One pass for the whole weekend, a single day, or just the party."
+      onLight
+    />
+
+    <div class="mt-14 grid gap-5 lg:grid-cols-2">
+      {mainPasses.map((pass) => <PassCard pass={pass} />)}
+    </div>
+
+    <div class="mt-16">
+      <h3 class="text-xl uppercase tracking-wide text-plum">Other tickets</h3>
+
+      <ul class="mt-6 divide-y divide-plum/15 border-y border-plum/15" role="list">
+        {
+          singleTickets.map((t) => (
+            <li class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-5">
+              <div class="min-w-0">
+                <p class="font-display text-lg uppercase text-plum">{t.name}</p>
+                <p class="text-sm text-plum/70">{t.summary}</p>
+              </div>
+              <div class="flex items-center gap-6">
+                <span class="font-display text-xl text-plum">{formatPrice(t.price)}</span>
+                <a
+                  href={event.bookingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-xs font-bold uppercase tracking-[0.14em] text-plum-light underline underline-offset-4"
+                >
+                  Book
+                </a>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+
+      {
+        !priceConfirmed && (
+          <p class="mt-6 max-w-2xl text-sm text-plum/65">
+            Prices shown are from the most recent edition and are being confirmed for the next one.
+            Booking goes to our Tickster shop.
+          </p>
+        )
+      }
+    </div>
+  </div>
+</section>

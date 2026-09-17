@@ -1,0 +1,125 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   B&C Weekend design tokens
+
+   Colours are taken from the real brand, not invented: #F073AB and #F7BE49
+   were sampled out of the official 2026 schedule artwork, and the aubergine /
+   plum / deep-gold values come from the current Drupal theme stylesheet.
+--------------------------------------------------------------------------- */
+@theme {
+  /* Surfaces, darkest to lightest */
+  --color-ink: #100310;
+  --color-aubergine: #1a0518;
+  --color-aubergine-raised: #2a0a21;
+  --color-plum: #3d0b39;
+  --color-plum-light: #55105a;
+
+  /* Accents */
+  --color-gold: #f7be49;
+  --color-gold-deep: #c89400;
+  --color-gold-soft: #eac66e;
+  --color-pink: #f073ab;
+  --color-pink-deep: #d63f86;
+
+  /* Light surfaces + text */
+  --color-cream: #fff4e5;
+  --color-bone: #fbf7fb;
+  --color-muted: #c9b4c4;
+
+  --font-display: var(--font-display), Impact, sans-serif;
+  --font-body: var(--font-body), 'Helvetica Neue', Arial, sans-serif;
+
+  /* One shared page gutter so every section lines up */
+  --spacing-gutter: 1.25rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Sticky header must not cover anchor targets. */
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* A single, unmistakable focus ring everywhere — gold on dark, dark on light. */
+  :focus-visible {
+    outline: 3px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  .on-light :focus-visible { outline-color: var(--color-plum); }
+
+  ::selection { background: var(--color-pink); color: var(--color-ink); }
+}
+
+@layer components {
+  /* Page gutter + max width, used by every section wrapper. */
+  .shell {
+    width: 100%;
+    max-width: 82rem;
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+  }
+  @media (min-width: 768px) {
+    .shell { padding-inline: 2.5rem; }
+  }
+
+  /* Small uppercase label used above section headings and on cards. */
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
+  /* Hairline rules that read as editorial rather than as card borders. */
+  .rule { border-top: 1px solid color-mix(in oklab, var(--color-gold) 28%, transparent); }
+  .rule-soft { border-top: 1px solid color-mix(in oklab, var(--color-bone) 14%, transparent); }
+}
+
+/* ---------------------------------------------------------------------------
+   Motion: one shared reveal. Sections start visible and are only hidden once
+   JS confirms IntersectionObserver support, so the page is never blank
+   without JS and never blank for reduced-motion users.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  html.js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

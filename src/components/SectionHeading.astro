@@ -1,0 +1,32 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  /** Optional supporting line under the title. */
+  lede?: string;
+  id?: string;
+  align?: 'left' | 'center';
+  /** Use on cream/light sections. */
+  onLight?: boolean;
+  class?: string;
+}
+
+const { eyebrow, title, lede, id, align = 'left', onLight = false, class: klass = '' } = Astro.props;
+---
+
+<header
+  id={id}
+  class={`${align === 'center' ? 'text-center mx-auto max-w-2xl' : 'max-w-3xl'} ${klass}`}
+>
+  {eyebrow && <p class={`eyebrow ${onLight ? "text-plum-light" : ""}`}>{eyebrow}</p>}
+  <h2
+    class={`mt-3 text-[clamp(2.25rem,7vw,4.5rem)] uppercase ${onLight ? 'text-plum' : 'text-bone'}`}
+  >
+    {title}
+  </h2>
+  {
+    lede && (
+      <p class={`mt-5 text-lg leading-relaxed ${onLight ? 'text-plum/80' : 'text-muted'}`}>{lede}</p>
+    )
+  }
+</header>

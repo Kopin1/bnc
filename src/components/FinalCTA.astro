@@ -1,0 +1,33 @@
+---
+import { event } from '../data/event';
+import Button from './Button.astro';
+---
+
+<section
+  class="relative isolate overflow-hidden bg-ink py-28 md:py-36"
+  data-reveal
+>
+  <div
+    class="absolute inset-0 -z-10"
+    style="background: radial-gradient(75% 130% at 50% 0%, #55105a 0%, #1a0518 55%, #100310 100%);"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="shell text-center">
+    <p class="eyebrow">{event.dateLabel}</p>
+
+    <h2 class="mx-auto mt-5 max-w-4xl text-[clamp(2.5rem,8vw,5.5rem)] uppercase text-bone">
+      Ready for the weekend?
+    </h2>
+
+    <p class="mx-auto mt-6 max-w-xl text-lg text-muted md:text-xl">
+      Three days. Two dance floors. One Stockholm weekend.
+    </p>
+
+    <div class="mt-11 flex flex-wrap justify-center gap-4">
+      <Button href={event.bookingUrl} external size="lg">Book your pass</Button>
+      <Button href="/program" variant="secondary" size="lg">View program</Button>
+    </div>
+  </div>
+</section>

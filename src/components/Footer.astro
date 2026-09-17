@@ -1,0 +1,91 @@
+---
+import { event } from '../data/event';
+import { nav, mapsUrl } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="rule-soft bg-ink pb-28 pt-20 lg:pb-20">
+  <div class="shell">
+    <div class="grid gap-10 md:grid-cols-[auto_1fr_auto] md:items-start md:gap-16">
+      <div>
+        <img src="/images/brand/bnc-logo.png" alt={event.name} width="96" height="103" class="h-24 w-auto" loading="lazy" />
+      </div>
+
+      <div class="grid gap-8 sm:grid-cols-2">
+        <div>
+          <p class="eyebrow">When &amp; where</p>
+          <p class="mt-3 text-bone">{event.dateLabel}</p>
+          <address class="mt-3 not-italic text-muted">
+            {event.venue.name}<br />
+            {event.venue.street}<br />
+            {event.venue.postalCode} {event.venue.city}, {event.venue.country}
+          </address>
+          <a
+            href={mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-3 inline-block text-sm text-gold underline underline-offset-4"
+          >
+            Directions
+          </a>
+        </div>
+
+        <div>
+          <p class="eyebrow">Contact</p>
+          <a
+            href={`mailto:${event.contact.email}`}
+            class="mt-3 inline-block text-bone underline underline-offset-4 hover:text-gold"
+          >
+            {event.contact.email}
+          </a>
+          <p class="mt-4 text-sm text-muted">Organised by {event.organizer.name}</p>
+
+          {
+            event.social.length > 0 && (
+              <ul class="mt-4 flex gap-4" role="list">
+                {event.social.map((s) => (
+                  <li>
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-sm text-gold underline underline-offset-4"
+                    >
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </div>
+      </div>
+
+      <nav aria-label="Footer" class="flex flex-col gap-3">
+        {
+          nav.map((item) => (
+            <a
+              href={item.href}
+              class="text-xs font-bold uppercase tracking-[0.16em] text-muted no-underline hover:text-gold"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+        <a
+          href={event.bookingUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-2 inline-flex justify-center bg-gold px-5 py-3 text-xs font-bold uppercase tracking-[0.14em] text-ink no-underline hover:bg-gold-soft"
+        >
+          Book now
+        </a>
+      </nav>
+    </div>
+
+    <p class="rule-soft mt-14 pt-6 text-xs text-muted">
+      © {year} {event.organizer.name}. {event.name}, {event.city}.
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,34 @@
+---
+import { introFacts } from '../data/site';
+import { event } from '../data/event';
+import { workshopCount } from '../data/schedule';
+---
+
+<section id="the-weekend" class="bg-aubergine py-24 md:py-32" data-reveal>
+  <div class="shell grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
+    <div>
+      <p class="eyebrow">The weekend</p>
+      <h2 class="mt-4 text-[clamp(2rem,5.5vw,3.5rem)] uppercase text-bone">
+        Three days of Bachata and Cuban dance in the heart of Stockholm
+      </h2>
+    </div>
+
+    <div class="lg:pt-16">
+      <p class="text-lg leading-relaxed text-muted md:text-xl">
+        Workshops during the day, two dance floors at night. International and local instructors
+        teach {workshopCount} workshops across {event.venue.rooms.length} rooms, and the evenings
+        belong to the DJs, the shows and the social dancing.
+      </p>
+
+      <ul class="mt-9 flex flex-wrap gap-2.5" role="list">
+        {
+          introFacts.map((fact) => (
+            <li class="border border-gold/35 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-gold">
+              {fact}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

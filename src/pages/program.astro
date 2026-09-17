@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ScheduleDay from '../components/ScheduleDay.astro';
+import Button from '../components/Button.astro';
+import { schedule, workshopCount } from '../data/schedule';
+import { event } from '../data/event';
+---
+
+<BaseLayout
+  title="Program"
+  description={`The full ${event.name} timetable: ${workshopCount} workshops across three days in ${event.city}, plus parties and shows. ${event.dateLabel}.`}
+>
+  <!-- Hero -->
+  <section class="relative isolate overflow-hidden bg-aubergine py-20 md:py-28">
+    <div
+      class="absolute inset-0 -z-10"
+      style="background: radial-gradient(85% 120% at 70% 0%, #55105a 0%, #1a0518 60%, #100310 100%);"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="shell">
+      <p class="eyebrow text-pink">{event.dateLabel}</p>
+      <h1 class="mt-4 text-[clamp(3rem,12vw,8rem)] uppercase text-bone">Program</h1>
+      <p class="mt-6 max-w-xl text-lg text-muted md:text-xl">
+        Choose your day. Plan your weekend.
+      </p>
+
+      <!-- Day jump links -->
+      <nav aria-label="Jump to day" class="mt-10 flex flex-wrap gap-3">
+        {
+          schedule.map((day) => (
+            <a
+              href={`#${day.id}`}
+              class="border border-gold/40 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-gold no-underline transition-colors hover:bg-gold hover:text-ink"
+            >
+              {day.day}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <Button href={event.bookingUrl} external>Book now</Button>
+        {
+          event.schedulePdf && (
+            <Button href={event.schedulePdf} variant="ghost">
+              Download schedule (PDF)
+            </Button>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Days -->
+  <div class="bg-ink">
+    <div class="shell">
+      {schedule.map((day) => <ScheduleDay day={day} />)}
+
+      <p class="rule-soft py-10 text-sm text-muted">
+        Workshop line-up shown from the most recent edition while the {event.year} grid is
+        finalised. We reserve the right to make changes.
+      </p>
+    </div>
+  </div>
+
+  <!-- Repeated CTA -->
+  <section class="bg-aubergine py-20 md:py-24">
+    <div class="shell flex flex-wrap items-center justify-between gap-8">
+      <div>
+        <h2 class="text-[clamp(1.75rem,5vw,3rem)] uppercase text-bone">
+          {workshopCount} workshops. Two parties.
+        </h2>
+        <p class="mt-3 text-muted">{event.dateLabel} · {event.venue.name}, {event.city}</p>
+      </div>
+      <Button href={event.bookingUrl} external size="lg">Book your pass</Button>
+    </div>
+  </section>
+</BaseLayout>
