@@ -19,7 +19,9 @@ const links = nav.map((item) => ({
     data-header-bar
   >
     <div class="shell flex h-[4.5rem] items-center justify-between gap-4">
-      <a href="/" class="flex items-center gap-3 no-underline" aria-label={`${event.name} — home`}>
+      <!-- Logo only. The anchor's aria-label carries the accessible name, so
+           dropping the wordmark costs nothing for screen readers. -->
+      <a href="/" class="flex items-center no-underline" aria-label={`${event.name} — home`}>
         <img
           src="/images/brand/bnc-logo.png"
           alt=""
@@ -28,9 +30,6 @@ const links = nav.map((item) => ({
           class="h-10 w-auto"
           fetchpriority="high"
         />
-        <span class="hidden font-display text-lg uppercase tracking-wide text-bone sm:block">
-          B&amp;C Weekend
-        </span>
       </a>
 
       <nav aria-label="Main" class="hidden items-center gap-8 lg:flex">
