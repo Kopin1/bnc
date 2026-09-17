@@ -1,0 +1,47 @@
+---
+import type { SocialIconName } from '../data/event';
+
+interface Props {
+  name: SocialIconName;
+  class?: string;
+}
+
+const { name, class: klass = 'h-5 w-5' } = Astro.props;
+---
+
+<!-- Line-style glyphs so they sit with the rest of the UI rather than pasting
+     brand colour into the palette. `currentColor` lets each context tint them. -->
+<svg
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.7"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={klass}
+  aria-hidden="true"
+  focusable="false"
+>
+  {
+    name === 'instagram' && (
+      <>
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none" />
+      </>
+    )
+  }
+  {
+    name === 'facebook' && (
+      <path d="M14 8.5V7a1.5 1.5 0 0 1 1.5-1.5H17V3h-2.2A4.3 4.3 0 0 0 10.5 7.3V8.5H8V11h2.5v10H14V11h2.5L17 8.5H14Z" />
+    )
+  }
+  {
+    name === 'youtube' && (
+      <>
+        <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
+        <path d="M10.5 9.5v5l4.5-2.5-4.5-2.5Z" fill="currentColor" stroke="none" />
+      </>
+    )
+  }
+</svg>

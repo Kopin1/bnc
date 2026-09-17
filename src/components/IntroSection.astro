@@ -1,10 +1,38 @@
 ---
+import { Image } from 'astro:assets';
 import { introFacts } from '../data/site';
 import { event } from '../data/event';
 import { workshopCount } from '../data/schedule';
+import skyline from '../assets/event/stockholm-skyline.jpg';
 ---
 
-<section id="the-weekend" class="bg-aubergine py-24 md:py-32" data-reveal>
+<!-- Image-led section: Stockholm itself carries the "where", so the copy does
+     not have to. Full-bleed background at every width — on a phone
+     `object-cover` crops a 2.4:1 panorama down to roughly its middle fifth,
+     which is fine: it is decoration, not something to read. The scrim is what
+     keeps the copy legible over it. -->
+<section
+  id="the-weekend"
+  class="relative isolate overflow-hidden bg-aubergine py-24 md:py-32"
+  data-reveal
+>
+  <div
+    class="absolute inset-0 -z-10"
+    style="background: linear-gradient(
+      to bottom,
+      rgba(21,4,24,0.93) 0%,
+      rgba(21,4,24,0.5) 18%,
+      rgba(21,4,24,0.5) 82%,
+      rgba(21,4,24,0.95) 100%);"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(61,11,57,0.45)_0%,transparent_60%)]"
+    aria-hidden="true"
+  >
+  </div>
+
   <div class="shell grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
     <div>
       <p class="eyebrow">The weekend</p>
@@ -14,7 +42,7 @@ import { workshopCount } from '../data/schedule';
     </div>
 
     <div class="lg:pt-16">
-      <p class="text-lg leading-relaxed text-muted md:text-xl">
+      <p class="text-lg leading-relaxed text-bone/90 md:text-xl">
         Workshops during the day, two dance floors at night. International and local instructors
         teach {workshopCount} workshops across {event.venue.rooms.length} rooms, and the evenings
         belong to the DJs, the shows and the social dancing.
@@ -23,7 +51,7 @@ import { workshopCount } from '../data/schedule';
       <ul class="mt-9 flex flex-wrap gap-2.5" role="list">
         {
           introFacts.map((fact) => (
-            <li class="border border-gold/35 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-gold">
+            <li class="border border-gold/45 bg-ink/35 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-gold backdrop-blur-[2px]">
               {fact}
             </li>
           ))
@@ -31,4 +59,16 @@ import { workshopCount } from '../data/schedule';
       </ul>
     </div>
   </div>
+
+  <Image
+    src={skyline}
+    alt=""
+    widths={[640, 1024, 1600]}
+    sizes="100vw"
+    width={1600}
+    height={669}
+    quality={62}
+    loading="lazy"
+    class="absolute inset-0 -z-20 h-full w-full object-cover object-center [filter:saturate(0.78)_brightness(0.5)]"
+  />
 </section>

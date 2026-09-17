@@ -1,0 +1,58 @@
+---
+import { disciplineOrder, levelOrder, disciplineStyles, levelStyles } from '../data/taxonomy';
+
+interface Props {
+  /** Levels only matter where classes are listed. */
+  showLevels?: boolean;
+  class?: string;
+}
+
+const { showLevels = true, class: klass = '' } = Astro.props;
+---
+
+<!-- Colour coding is useless without a key. Kept compact and set as a
+     definition list so it reads correctly to screen readers too. -->
+<div class={`flex flex-wrap items-start gap-x-10 gap-y-5 ${klass}`}>
+  <div>
+    <p class="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-muted">Dance</p>
+    <ul class="mt-2.5 flex flex-wrap items-center gap-x-5 gap-y-2" role="list">
+      {
+        disciplineOrder.map((d) => (
+          <li class="flex items-center gap-2">
+            <span class={`h-2.5 w-2.5 shrink-0 ${disciplineStyles[d].swatch}`} aria-hidden="true" />
+            <span class="text-xs font-bold uppercase tracking-[0.1em] text-bone">
+              {disciplineStyles[d].label}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  {
+    showLevels && (
+      <div>
+        <p class="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-muted">Level</p>
+        <ul class="mt-2.5 flex flex-wrap items-center gap-x-5 gap-y-2" role="list">
+          {levelOrder.map((l) => {
+            const style = levelStyles[l];
+            return (
+              <li class="flex items-center gap-2">
+                <span class="flex items-center gap-[3px]" aria-hidden="true">
+                  {[1, 2, 3].map((p) => (
+                    <span
+                      class={`h-[3px] w-[7px] rounded-[1px] ${p <= style.rank ? style.pip : 'bg-bone/20'}`}
+                    />
+                  ))}
+                </span>
+                <span class="text-xs font-bold uppercase tracking-[0.1em] text-bone">
+                  {style.label}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    )
+  }
+</div>

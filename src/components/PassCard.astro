@@ -35,11 +35,13 @@ const featured = pass.featured ?? false;
     {formatPrice(pass.price)}
   </p>
 
-  <ul class={`mt-7 space-y-2.5 text-sm ${featured ? 'text-cream/90' : 'text-plum/85'}`} role="list">
+  <!-- `grow` lets the inclusions list absorb the height difference between
+       cards, so both booking buttons line up along the bottom edge. -->
+  <ul class={`mt-7 grow space-y-2.5 text-sm ${featured ? 'text-cream/90' : 'text-plum/85'}`} role="list">
     {
       pass.includes.map((item) => (
         <li class="flex gap-3">
-          <span class={featured ? 'text-gold' : 'text-pink-deep'} aria-hidden="true">
+          <span class={featured ? 'text-gold' : 'text-plum-light'} aria-hidden="true">
             +
           </span>
           <span>{item}</span>

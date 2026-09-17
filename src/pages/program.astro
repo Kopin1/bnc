@@ -2,25 +2,52 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ScheduleDay from '../components/ScheduleDay.astro';
 import Button from '../components/Button.astro';
+import ColorKey from '../components/ColorKey.astro';
 import { schedule, workshopCount } from '../data/schedule';
 import { event } from '../data/event';
+import { Image } from 'astro:assets';
+import workshopPhoto from '../assets/event/workshop-floor.jpg';
 ---
 
 <BaseLayout
   title="Program"
   description={`The full ${event.name} timetable: ${workshopCount} workshops across three days in ${event.city}, plus parties and shows. ${event.dateLabel}.`}
 >
-  <!-- Hero -->
+  <!-- Hero. The photo is a real workshop on the SSD floor, so it does the job
+       the copy otherwise would. It is a bright shot — white shirts against a
+       lit studio — so the scrim is directional: heavy on the left where all
+       the text sits, opening up on the right so the dancers stay visible. -->
   <section class="relative isolate overflow-hidden bg-aubergine py-20 md:py-28">
+    <Image
+      src={workshopPhoto}
+      alt=""
+      widths={[640, 1024, 1600, 2250]}
+      sizes="100vw"
+      quality={68}
+      loading="eager"
+      fetchpriority="high"
+      class="absolute inset-0 -z-20 h-full w-full object-cover object-[center_38%] [filter:saturate(0.85)_brightness(0.68)]"
+    />
+
+    <!-- A directional left-to-right scrim was the wrong call for this photo:
+         its bright subject (white shirt, lit studio) sits dead centre while
+         its darkest area is on the right, so the heavy end buried the subject
+         and the light end fell on shadow. An even veil plus a gentle wash from
+         the left works with the picture instead of against it. Measured worst
+         case over the brightest pixel is still comfortably past AA. -->
     <div
       class="absolute inset-0 -z-10"
-      style="background: radial-gradient(85% 120% at 70% 0%, #55105a 0%, #1a0518 60%, #100310 100%);"
+      style="background: linear-gradient(
+        to bottom,
+        rgba(16,3,16,0.82) 0%,
+        rgba(16,3,16,0.56) 24%,
+        rgba(16,3,16,0.56) 72%,
+        rgba(16,3,16,0.92) 100%);"
       aria-hidden="true"
     >
     </div>
-
     <div class="shell">
-      <p class="eyebrow text-pink">{event.dateLabel}</p>
+      <p class="eyebrow">{event.dateLabel}</p>
       <h1 class="mt-4 text-[clamp(3rem,12vw,8rem)] uppercase text-bone">Program</h1>
       <p class="mt-6 max-w-xl text-lg text-muted md:text-xl">
         Choose your day. Plan your weekend.
@@ -32,7 +59,7 @@ import { event } from '../data/event';
           schedule.map((day) => (
             <a
               href={`#${day.id}`}
-              class="border border-gold/40 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-gold no-underline transition-colors hover:bg-gold hover:text-ink"
+              class="border border-gold/50 bg-ink/55 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-gold no-underline backdrop-blur-[3px] transition-colors hover:bg-gold hover:text-ink"
             >
               {day.day}
             </a>
@@ -56,6 +83,8 @@ import { event } from '../data/event';
   <!-- Days -->
   <div class="bg-ink">
     <div class="shell">
+      <ColorKey class="border-b border-bone/12 py-10" />
+
       {schedule.map((day) => <ScheduleDay day={day} />)}
 
       <p class="rule-soft py-10 text-sm text-muted">

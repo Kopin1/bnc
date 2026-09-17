@@ -2,6 +2,7 @@
 import { teachingArtists } from '../data/artists';
 import SectionHeading from './SectionHeading.astro';
 import ArtistCard from './ArtistCard.astro';
+import ColorKey from './ColorKey.astro';
 
 // Rhythm without gaps: three large portraits on top, the rest square beneath.
 // Both blocks are three columns wide, so the grid always tiles cleanly.
@@ -17,7 +18,9 @@ const rest = teachingArtists.filter((a) => !a.feature);
       lede="Instructors from Barcelona, Havana, Germany and Stockholm teaching Bachata and Salsa Cubana all weekend."
     />
 
-    <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <ColorKey showLevels={false} class="mt-9" />
+
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {featured.map((artist, i) => <ArtistCard artist={artist} feature eager={i === 0} />)}
     </div>
 

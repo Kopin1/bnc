@@ -1,26 +1,23 @@
 ---
 import type { Session } from '../data/schedule';
+import DisciplineTag from './DisciplineTag.astro';
+import LevelTag from './LevelTag.astro';
 
 interface Props {
   session: Session;
   /** Grid cells already show the time in the row header. */
   showTime?: boolean;
-  compact?: boolean;
+  /** Mobile cards carry the room label separately. */
+  showDiscipline?: boolean;
 }
 
-const { session, showTime = false, compact = false } = Astro.props;
-
-const levelTone: Record<string, string> = {
-  'Open level': 'text-gold',
-  Intermediate: 'text-muted',
-  Advanced: 'text-pink',
-};
+const { session, showTime = false, showDiscipline = true } = Astro.props;
 ---
 
-<div class={`h-full ${compact ? 'py-1' : ''}`}>
+<div class="flex h-full flex-col">
   {
     showTime && (
-      <p class="text-xs font-bold uppercase tracking-[0.14em] text-gold">
+      <p class="text-xs font-bold uppercase tracking-[0.14em] text-bone">
         {session.start}
         {session.end && ` – ${session.end}`}
       </p>
@@ -28,24 +25,24 @@ const levelTone: Record<string, string> = {
   }
 
   {
-    session.artist && (
-      <p class={`${showTime ? 'mt-1.5' : ''} font-display text-sm uppercase leading-tight text-bone`}>
-        {session.artist}
-      </p>
+    showDiscipline && session.discipline && (
+      <div class={showTime ? 'mt-2' : ''}>
+        <DisciplineTag discipline={session.discipline} />
+      </div>
     )
   }
 
-  <p class={`${session.artist ? 'mt-1' : showTime ? 'mt-1.5' : ''} text-sm leading-snug text-bone/85`}>
+  {
+    session.artist && (
+      <p class="mt-2.5 font-display text-sm uppercase leading-tight text-bone">{session.artist}</p>
+    )
+  }
+
+  <p class={`${session.artist ? 'mt-1' : 'mt-2.5'} text-sm leading-snug text-bone/80`}>
     {session.title}
   </p>
 
-  {
-    session.level && (
-      <p class={`mt-1.5 text-[0.625rem] font-bold uppercase tracking-[0.16em] ${levelTone[session.level] ?? 'text-muted'}`}>
-        {session.level}
-      </p>
-    )
-  }
+  {session.level && <LevelTag level={session.level} class="mt-2.5" />}
 
   {session.note && <p class="mt-1.5 text-xs italic text-muted">{session.note}</p>}
 </div>

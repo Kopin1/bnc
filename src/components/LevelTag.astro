@@ -1,0 +1,31 @@
+---
+import type { Level } from '../data/schedule';
+import { levelStyles } from '../data/taxonomy';
+
+interface Props {
+  level: Level;
+  class?: string;
+}
+
+const { level, class: klass = '' } = Astro.props;
+const style = levelStyles[level];
+const pips = [1, 2, 3];
+---
+
+<!-- Pips carry the difficulty on their own, so the level still reads in
+     greyscale and for colour-blind viewers. The label is the accessible name;
+     the pips are decorative. -->
+<span class={`inline-flex items-center gap-1.5 ${klass}`}>
+  <span class="flex items-center gap-[3px]" aria-hidden="true">
+    {
+      pips.map((p) => (
+        <span
+          class={`h-[3px] w-[7px] rounded-[1px] ${p <= style.rank ? style.pip : 'bg-bone/20'}`}
+        />
+      ))
+    }
+  </span>
+  <span class={`text-[0.625rem] font-bold uppercase tracking-[0.16em] ${style.text}`}>
+    {style.label}
+  </span>
+</span>

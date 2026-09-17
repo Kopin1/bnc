@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import type { Artist } from '../data/artists';
 import { artistImage } from '../data/artists';
+import DisciplineTag from './DisciplineTag.astro';
 
 interface Props {
   artist: Artist;
@@ -32,11 +33,11 @@ const place = [artist.city, artist.country].filter(Boolean).join(', ');
         loading={eager ? 'eager' : 'lazy'}
         fetchpriority={eager ? 'high' : 'auto'}
         class={`w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] ${
-          feature ? 'aspect-[4/5]' : 'aspect-square'
+          feature ? 'aspect-[4/5]' : 'aspect-[3/4]'
         }`}
       />
     ) : (
-      <div class={`w-full bg-plum ${feature ? 'aspect-[4/5]' : 'aspect-square'}`} />
+      <div class={`w-full bg-plum ${feature ? 'aspect-[4/5]' : 'aspect-[3/4]'}`} />
     )
   }
 
@@ -49,18 +50,16 @@ const place = [artist.city, artist.country].filter(Boolean).join(', ');
   </div>
 
   <figcaption class="absolute inset-x-0 bottom-0 p-4 md:p-5">
-    <p class="text-[0.625rem] font-bold uppercase tracking-[0.2em] text-pink">
-      {artist.discipline}
-    </p>
+    <DisciplineTag discipline={artist.discipline} />
     <h3
-      class={`mt-1.5 uppercase text-bone ${
+      class={`mt-2 uppercase text-bone ${
         feature ? 'text-[clamp(1.25rem,2.4vw,1.9rem)]' : 'text-[clamp(1rem,1.9vw,1.25rem)]'
       }`}
     >
       {artist.name}
     </h3>
     <p class="mt-1 text-xs text-muted">
-      {place}{artist.descriptor && <span class="text-gold"> · {artist.descriptor}</span>}
+      {place}{artist.descriptor && <span class="text-bone/75"> · {artist.descriptor}</span>}
     </p>
   </figcaption>
 </figure>

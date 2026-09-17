@@ -1,15 +1,39 @@
 ---
+import { Image } from 'astro:assets';
 import { event } from '../data/event';
 import Button from './Button.astro';
+import groupPhoto from '../assets/event/lineup-group.jpg';
 ---
 
-<section
-  class="relative isolate overflow-hidden bg-ink py-28 md:py-36"
-  data-reveal
->
+<section class="relative isolate overflow-hidden bg-ink py-28 md:py-36" data-reveal>
+  <!-- The line-up against the red curtain. Desaturated and darkened so the
+       red resolves toward the brand's plum rather than fighting it, with the
+       scrim heaviest through the middle where the centred copy sits. -->
+  <Image
+    src={groupPhoto}
+    alt=""
+    widths={[640, 1024, 1600, 2250]}
+    sizes="100vw"
+    quality={66}
+    loading="lazy"
+    class="absolute inset-0 -z-20 h-full w-full object-cover object-[center_30%] [filter:saturate(0.72)_brightness(0.78)]"
+  />
+
   <div
     class="absolute inset-0 -z-10"
-    style="background: radial-gradient(75% 130% at 50% 0%, #55105a 0%, #1a0518 55%, #100310 100%);"
+    style="background: linear-gradient(
+      to bottom,
+      rgba(16,3,16,0.82) 0%,
+      rgba(16,3,16,0.45) 30%,
+      rgba(16,3,16,0.45) 70%,
+      rgba(16,3,16,0.9) 100%);"
+    aria-hidden="true"
+  >
+  </div>
+
+  <!-- Plum wash pulls the remaining red back onto the palette. -->
+  <div
+    class="absolute inset-0 -z-10 bg-[radial-gradient(75%_120%_at_50%_0%,rgba(85,16,90,0.28)_0%,rgba(26,5,24,0.12)_55%,rgba(16,3,16,0.2)_100%)]"
     aria-hidden="true"
   >
   </div>
@@ -21,7 +45,7 @@ import Button from './Button.astro';
       Ready for the weekend?
     </h2>
 
-    <p class="mx-auto mt-6 max-w-xl text-lg text-muted md:text-xl">
+    <p class="mx-auto mt-6 max-w-xl text-lg text-bone/90 md:text-xl">
       Three days. Two dance floors. One Stockholm weekend.
     </p>
 

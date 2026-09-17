@@ -1,0 +1,30 @@
+---
+import type { Discipline } from '../data/artists';
+import { disciplineStyles } from '../data/taxonomy';
+
+interface Props {
+  discipline: Discipline;
+  /** `pill` is the filled default; `text` for tight spots. */
+  variant?: 'pill' | 'text';
+  class?: string;
+}
+
+const { discipline, variant = 'pill', class: klass = '' } = Astro.props;
+const style = disciplineStyles[discipline];
+---
+
+{
+  variant === 'pill' ? (
+    <span
+      class={`inline-block px-2 py-[3px] text-[0.625rem] font-bold uppercase leading-none tracking-[0.12em] ${style.pill} ${klass}`}
+    >
+      {style.label}
+    </span>
+  ) : (
+    <span
+      class={`text-[0.625rem] font-bold uppercase tracking-[0.18em] ${style.text} ${klass}`}
+    >
+      {style.label}
+    </span>
+  )
+}

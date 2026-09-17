@@ -1,3 +1,14 @@
+/** Icons available in `SocialIcon.astro`. */
+export type SocialIconName = 'instagram' | 'facebook' | 'youtube';
+
+export interface SocialLink {
+  label: string;
+  /** Optional @handle, shown next to the label in the footer. */
+  handle?: string;
+  href: string;
+  icon: SocialIconName;
+}
+
 /**
  * Single source of truth for the event itself.
  *
@@ -59,20 +70,36 @@ export const event = {
   schedulePdf: null as string | null,
 
   /**
-   * Hero background video. The owner supplies this later; until a file exists
-   * at this path the hero falls back to the poster image alone.
-   * Drop `hero.mp4` / `hero.webm` into `public/video/` and flip `enabled`.
+   * Hero background video (supplied 17 Sep 2026). 1280x720, ~21s, H.264,
+   * no audio track — it is played muted and never unmuted.
+   *
+   * Plays at every screen size, phones included — it is 5.2 MB and that is a
+   * deliberate call. It still does not load for visitors who ask for reduced
+   * motion, or whose browser reports Save-Data; those two get the poster frame
+   * and download no video. See HeroVideo.astro.
+   *
+   * Add a `.webm` here if one is ever produced — smaller where supported, and
+   * the browser picks the first source it can play.
    */
   heroVideo: {
-    enabled: false,
-    sources: [
-      { src: '/video/hero.webm', type: 'video/webm' },
-      { src: '/video/hero.mp4', type: 'video/mp4' },
-    ],
+    enabled: true,
+    poster: '/images/event/hero-poster.jpg',
+    sources: [{ src: '/video/hero.mp4', type: 'video/mp4' }],
   },
 
-  /** No social profiles are linked from the current site — add when supplied. */
-  social: [] as Array<{ label: string; href: string }>,
+  /**
+   * Social profiles. Rendered in the header, the mobile drawer and the footer.
+   * Add an entry here and it appears in all three — see `SocialIcon.astro` for
+   * the available `icon` names.
+   */
+  social: [
+    {
+      label: 'Instagram',
+      handle: '@bachataandcubanweekend',
+      href: 'https://www.instagram.com/bachataandcubanweekend/',
+      icon: 'instagram',
+    },
+  ] as SocialLink[],
 } as const;
 
 export const siteMeta = {

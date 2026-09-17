@@ -1,4 +1,5 @@
 import { event } from './event';
+import type { Discipline } from './artists';
 
 /**
  * The full weekend programme.
@@ -32,6 +33,12 @@ export interface Session {
   artist?: string;
   room?: string;
   category: SessionCategory;
+  /**
+   * Which dance the class belongs to. Derived from the class content on the
+   * flyer, not from the teacher — Cuban teachers run bachata-family classes
+   * and vice versa (e.g. Danel & Ariana teach Bacha Tango).
+   */
+  discipline?: Discipline;
   level?: Level;
   /** Shown as a small caveat under the item. */
   note?: string;
@@ -61,10 +68,10 @@ export const schedule: ScheduleDay[] = [
     subline: 'Two dance floors until late',
     rooms: ['Sal 1', 'Sal 2'],
     sessions: [
-      { start: '16:30', end: '17:30', title: 'Bachata Fusion — Smooth Transitions', artist: 'Alberto & Lisondra', room: 'Sal 1', category: 'workshop', level: 'Intermediate' },
-      { start: '16:30', end: '17:30', title: 'Timba Partnerwork', artist: 'Arturo & Linda', room: 'Sal 2', category: 'workshop', level: 'Intermediate' },
-      { start: '17:40', end: '18:40', title: 'Timba Partnerwork', artist: 'Kevin & Geysa', room: 'Sal 1', category: 'workshop', level: 'Intermediate' },
-      { start: '17:40', end: '18:40', title: 'Bacha Tango', artist: 'Danel & Ariana', room: 'Sal 2', category: 'workshop', level: 'Intermediate' },
+      { start: '16:30', end: '17:30', title: 'Bachata Fusion — Smooth Transitions', artist: 'Alberto & Lisondra', room: 'Sal 1', category: 'workshop', discipline: 'Bachata', level: 'Intermediate' },
+      { start: '16:30', end: '17:30', title: 'Timba Partnerwork', artist: 'Arturo & Linda', room: 'Sal 2', category: 'workshop', discipline: 'Salsa Cubana', level: 'Intermediate' },
+      { start: '17:40', end: '18:40', title: 'Timba Partnerwork', artist: 'Kevin & Geysa', room: 'Sal 1', category: 'workshop', discipline: 'Salsa Cubana', level: 'Intermediate' },
+      { start: '17:40', end: '18:40', title: 'Bacha Tango', artist: 'Danel & Ariana', room: 'Sal 2', category: 'workshop', discipline: 'Bachata', level: 'Intermediate' },
       { start: '19:00', end: '21:00', title: 'Drop-in classes in Salsa & Bachata', category: 'dropin', note: 'Not included in the Full Pass' },
       { start: '21:00', end: '03:00', title: 'Opening party — two dance floors', artist: 'Bachata & Salsa Cubana', category: 'party' },
       { start: '23:00', title: 'Presentation of the international line-up', category: 'show' },
@@ -79,21 +86,21 @@ export const schedule: ScheduleDay[] = [
     subline: 'Two dance floors until 05:00',
     rooms: ['Sal 1', 'Sal 2', 'Sal 4'],
     sessions: [
-      { start: '11:00', end: '12:00', title: 'Bachata Sensual Flow', artist: 'Ezequiel & Julia', room: 'Sal 1', category: 'workshop', level: 'Intermediate' },
-      { start: '11:00', end: '12:00', title: 'Timba Partnerwork', artist: 'Juliette & Linda', room: 'Sal 2', category: 'workshop', level: 'Intermediate' },
-      { start: '12:10', end: '13:10', title: 'Timba Partnerwork', artist: 'Kevin & Geysa', room: 'Sal 1', category: 'workshop', level: 'Advanced' },
-      { start: '12:10', end: '13:10', title: 'Bachata — Clear Leading & Responsive Following', artist: 'Alberto & Lisondra', room: 'Sal 2', category: 'workshop', level: 'Intermediate' },
-      { start: '12:10', end: '13:10', title: 'Casino Paseos y Floreos', artist: 'Reynaldo Salazar', room: 'Sal 4', category: 'workshop', level: 'Intermediate' },
+      { start: '11:00', end: '12:00', title: 'Bachata Sensual Flow', artist: 'Ezequiel & Julia', room: 'Sal 1', category: 'workshop', discipline: 'Bachata', level: 'Intermediate' },
+      { start: '11:00', end: '12:00', title: 'Timba Partnerwork', artist: 'Juliette & Linda', room: 'Sal 2', category: 'workshop', discipline: 'Salsa Cubana', level: 'Intermediate' },
+      { start: '12:10', end: '13:10', title: 'Timba Partnerwork', artist: 'Kevin & Geysa', room: 'Sal 1', category: 'workshop', discipline: 'Salsa Cubana', level: 'Advanced' },
+      { start: '12:10', end: '13:10', title: 'Bachata — Clear Leading & Responsive Following', artist: 'Alberto & Lisondra', room: 'Sal 2', category: 'workshop', discipline: 'Bachata', level: 'Intermediate' },
+      { start: '12:10', end: '13:10', title: 'Casino Paseos y Floreos', artist: 'Reynaldo Salazar', room: 'Sal 4', category: 'workshop', discipline: 'Salsa Cubana', level: 'Intermediate' },
       { start: '13:10', end: '14:30', title: 'Lunch', category: 'break' },
-      { start: '14:30', end: '15:30', title: 'Bachata Sensual', artist: 'Mario & Nia', room: 'Sal 1', category: 'workshop', level: 'Advanced' },
-      { start: '14:30', end: '15:30', title: 'Timba Partnerwork', artist: 'Kevin & Geysa', room: 'Sal 2', category: 'workshop', level: 'Intermediate' },
-      { start: '14:30', end: '15:30', title: 'Bachazouk', artist: 'Ezequiel & Julia', room: 'Sal 4', category: 'workshop', level: 'Intermediate' },
-      { start: '15:40', end: '16:40', title: 'Cuban Ladies Style', artist: 'Juliette', room: 'Sal 1', category: 'workshop' },
-      { start: '15:40', end: '16:40', title: 'Bachata Fusion', artist: 'Danel & Ariana', room: 'Sal 2', category: 'workshop', level: 'Intermediate' },
-      { start: '15:40', end: '16:40', title: 'Cuban Men Style', artist: 'Arturo', room: 'Sal 4', category: 'workshop' },
-      { start: '16:50', end: '17:50', title: 'Bachata Sensual', artist: 'Lorena & Marc', room: 'Sal 1', category: 'workshop', level: 'Intermediate' },
-      { start: '16:50', end: '17:50', title: 'Rueda Contratiempo', artist: 'Reynaldo Salazar', room: 'Sal 2', category: 'workshop', level: 'Advanced' },
-      { start: '16:50', end: '17:50', title: 'Bachata Sensual — Flow Combination', artist: 'Rodrigo & Lana', room: 'Sal 4', category: 'workshop', level: 'Advanced' },
+      { start: '14:30', end: '15:30', title: 'Bachata Sensual', artist: 'Mario & Nia', room: 'Sal 1', category: 'workshop', discipline: 'Bachata', level: 'Advanced' },
+      { start: '14:30', end: '15:30', title: 'Timba Partnerwork', artist: 'Kevin & Geysa', room: 'Sal 2', category: 'workshop', discipline: 'Salsa Cubana', level: 'Intermediate' },
+      { start: '14:30', end: '15:30', title: 'Bachazouk', artist: 'Ezequiel & Julia', room: 'Sal 4', category: 'workshop', discipline: 'Bachata', level: 'Intermediate' },
+      { start: '15:40', end: '16:40', title: 'Cuban Ladies Style', artist: 'Juliette', room: 'Sal 1', category: 'workshop', discipline: 'Salsa Cubana' },
+      { start: '15:40', end: '16:40', title: 'Bachata Fusion', artist: 'Danel & Ariana', room: 'Sal 2', category: 'workshop', discipline: 'Bachata', level: 'Intermediate' },
+      { start: '15:40', end: '16:40', title: 'Cuban Men Style', artist: 'Arturo', room: 'Sal 4', category: 'workshop', discipline: 'Salsa Cubana' },
+      { start: '16:50', end: '17:50', title: 'Bachata Sensual', artist: 'Lorena & Marc', room: 'Sal 1', category: 'workshop', discipline: 'Bachata', level: 'Intermediate' },
+      { start: '16:50', end: '17:50', title: 'Rueda Contratiempo', artist: 'Reynaldo Salazar', room: 'Sal 2', category: 'workshop', discipline: 'Salsa Cubana', level: 'Advanced' },
+      { start: '16:50', end: '17:50', title: 'Bachata Sensual — Flow Combination', artist: 'Rodrigo & Lana', room: 'Sal 4', category: 'workshop', discipline: 'Bachata', level: 'Advanced' },
       { start: '22:00', end: '05:00', title: 'Main party — two dance floors', artist: 'Bachata & Salsa Cubana', category: 'party' },
       { start: '24:00', title: 'Showtime with the international line-up', category: 'show' },
     ],
@@ -107,21 +114,21 @@ export const schedule: ScheduleDay[] = [
     subline: 'Final workshops and weekend closing',
     rooms: ['Sal 1', 'Sal 2', 'Sal 4'],
     sessions: [
-      { start: '11:00', end: '12:00', title: 'Casino — Tricks & Dips', artist: 'Kevin & Geysa', room: 'Sal 1', category: 'workshop', level: 'Intermediate' },
-      { start: '11:00', end: '12:00', title: 'Bachata Sensual', artist: 'Lorena & Marc', room: 'Sal 2', category: 'workshop', level: 'Advanced' },
-      { start: '12:10', end: '13:10', title: 'Acro-Bachata', artist: 'Danel & Ariana', room: 'Sal 1', category: 'workshop', level: 'Intermediate' },
-      { start: '12:10', end: '13:10', title: 'Timba Partnerwork', artist: 'Arturo & Juliette', room: 'Sal 2', category: 'workshop', level: 'Intermediate' },
-      { start: '12:10', end: '13:10', title: 'Bachata — Musicality & Connection', artist: 'Rodrigo & Lana', room: 'Sal 4', category: 'workshop', level: 'Intermediate' },
+      { start: '11:00', end: '12:00', title: 'Casino — Tricks & Dips', artist: 'Kevin & Geysa', room: 'Sal 1', category: 'workshop', discipline: 'Salsa Cubana', level: 'Intermediate' },
+      { start: '11:00', end: '12:00', title: 'Bachata Sensual', artist: 'Lorena & Marc', room: 'Sal 2', category: 'workshop', discipline: 'Bachata', level: 'Advanced' },
+      { start: '12:10', end: '13:10', title: 'Acro-Bachata', artist: 'Danel & Ariana', room: 'Sal 1', category: 'workshop', discipline: 'Bachata', level: 'Intermediate' },
+      { start: '12:10', end: '13:10', title: 'Timba Partnerwork', artist: 'Arturo & Juliette', room: 'Sal 2', category: 'workshop', discipline: 'Salsa Cubana', level: 'Intermediate' },
+      { start: '12:10', end: '13:10', title: 'Bachata — Musicality & Connection', artist: 'Rodrigo & Lana', room: 'Sal 4', category: 'workshop', discipline: 'Bachata', level: 'Intermediate' },
       { start: '13:10', end: '14:30', title: 'Lunch', category: 'break' },
-      { start: '14:30', end: '15:30', title: 'Rueda Caminando', artist: 'Reynaldo Salazar', room: 'Sal 1', category: 'workshop', level: 'Intermediate' },
-      { start: '14:30', end: '15:30', title: 'Bachata Fusion — Tools & Technique', artist: 'Alberto & Lisondra', room: 'Sal 2', category: 'workshop', level: 'Intermediate' },
-      { start: '14:30', end: '15:30', title: 'Afro Cuban', artist: 'Saul Perez', room: 'Sal 4', category: 'workshop', level: 'Open level' },
-      { start: '15:40', end: '16:40', title: 'Bachata Ladies — Lines & Flow', artist: 'Lorena', room: 'Sal 1', category: 'workshop' },
-      { start: '15:40', end: '16:40', title: 'Rueda de Casino', artist: 'Arturo Rojas', room: 'Sal 2', category: 'workshop', level: 'Intermediate' },
-      { start: '15:40', end: '16:40', title: 'Bachata Men Style', artist: 'Marc', room: 'Sal 4', category: 'workshop' },
-      { start: '16:50', end: '17:50', title: 'Timba con Afro-Rumba', artist: 'Reynaldo Salazar', room: 'Sal 1', category: 'workshop', level: 'Advanced' },
-      { start: '16:50', end: '17:50', title: 'Bachata Sensual', artist: 'Mario & Nia', room: 'Sal 2', category: 'workshop', level: 'Advanced' },
-      { start: '16:50', end: '17:50', title: 'Son Partnerwork', artist: 'Saul Perez', room: 'Sal 4', category: 'workshop', level: 'Intermediate' },
+      { start: '14:30', end: '15:30', title: 'Rueda Caminando', artist: 'Reynaldo Salazar', room: 'Sal 1', category: 'workshop', discipline: 'Salsa Cubana', level: 'Intermediate' },
+      { start: '14:30', end: '15:30', title: 'Bachata Fusion — Tools & Technique', artist: 'Alberto & Lisondra', room: 'Sal 2', category: 'workshop', discipline: 'Bachata', level: 'Intermediate' },
+      { start: '14:30', end: '15:30', title: 'Afro Cuban', artist: 'Saul Perez', room: 'Sal 4', category: 'workshop', discipline: 'Salsa Cubana', level: 'Open level' },
+      { start: '15:40', end: '16:40', title: 'Bachata Ladies — Lines & Flow', artist: 'Lorena', room: 'Sal 1', category: 'workshop', discipline: 'Bachata' },
+      { start: '15:40', end: '16:40', title: 'Rueda de Casino', artist: 'Arturo Rojas', room: 'Sal 2', category: 'workshop', discipline: 'Salsa Cubana', level: 'Intermediate' },
+      { start: '15:40', end: '16:40', title: 'Bachata Men Style', artist: 'Marc', room: 'Sal 4', category: 'workshop', discipline: 'Bachata' },
+      { start: '16:50', end: '17:50', title: 'Timba con Afro-Rumba', artist: 'Reynaldo Salazar', room: 'Sal 1', category: 'workshop', discipline: 'Salsa Cubana', level: 'Advanced' },
+      { start: '16:50', end: '17:50', title: 'Bachata Sensual', artist: 'Mario & Nia', room: 'Sal 2', category: 'workshop', discipline: 'Bachata', level: 'Advanced' },
+      { start: '16:50', end: '17:50', title: 'Son Partnerwork', artist: 'Saul Perez', room: 'Sal 4', category: 'workshop', discipline: 'Salsa Cubana', level: 'Intermediate' },
     ],
   },
 ];

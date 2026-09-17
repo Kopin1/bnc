@@ -3,12 +3,11 @@ import { event } from '../data/event';
 import Button from './Button.astro';
 
 const { heroVideo } = event;
-const heroPoster = '/images/event/hero-poster.jpg';
 ---
 
 <section class="relative isolate flex min-h-[88svh] items-center overflow-hidden bg-aubergine">
-  <!-- Layer 1 — brand light. This is the background until a video is supplied,
-       and it still reads well behind one. -->
+  <!-- Layer 1 — brand light. This is the background before the video plays,
+       and it still reads well behind it. -->
   <div
     class="absolute inset-0 -z-30"
     style="background:
@@ -19,32 +18,30 @@ const heroPoster = '/images/event/hero-poster.jpg';
   </div>
 
   {
-    /* Layer 2 — the owner's video, once supplied. `enabled` stays false until
-       the file exists, so we never request a missing asset. Reduced-motion
-       users are served the poster only, via the media query below. */
+    /* Layer 2 — the footage, at every screen size. There is no `src` in the
+       markup: the sources are attached by the script below so that visitors
+       who ask for reduced motion (or whose browser reports Save-Data) never
+       fetch it at all. With no source attached the element renders `poster`,
+       which is exactly the fallback those visitors should get. */
     heroVideo.enabled && (
       <video
-        class="absolute inset-0 -z-20 h-full w-full object-cover opacity-55"
-        autoplay
+        class="absolute inset-0 -z-20 h-full w-full object-cover opacity-0 transition-opacity duration-1000 [&.is-playing]:opacity-[0.72]"
         muted
         loop
         playsinline
-        preload="metadata"
-        poster={heroPoster}
+        preload="none"
+        poster={heroVideo.poster}
         aria-hidden="true"
         data-hero-video
-      >
-        {heroVideo.sources.map((s) => (
-          <source src={s.src} type={s.type} />
-        ))}
-      </video>
+        data-sources={JSON.stringify(heroVideo.sources)}
+      />
     )
   }
 
-  <!-- Layer 3 — legibility scrim. Always present so copy contrast never
-       depends on what the video happens to be showing. -->
+  <!-- Layer 3 — legibility scrim. Always present, so copy contrast never
+       depends on what the video happens to be showing at that moment. -->
   <div
-    class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(16,3,16,0.92)_0%,rgba(16,3,16,0.72)_45%,rgba(16,3,16,0.35)_100%)]"
+    class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(16,3,16,0.88)_0%,rgba(16,3,16,0.68)_45%,rgba(16,3,16,0.34)_100%)]"
     aria-hidden="true"
   >
   </div>
@@ -57,7 +54,7 @@ const heroPoster = '/images/event/hero-poster.jpg';
   <div class="shell relative w-full py-20 md:py-28">
     <div class="grid items-center gap-12 lg:grid-cols-[1.5fr_1fr]">
       <div>
-        <p class="eyebrow text-pink">
+        <p class="eyebrow">
           {event.city}, {event.country}
         </p>
 
@@ -66,14 +63,13 @@ const heroPoster = '/images/event/hero-poster.jpg';
           <span class="text-gold">Cuban Weekend</span>
         </h1>
 
-        <!-- Dates get their own strong typographic treatment. -->
         <p
           class="mt-7 inline-block border-y border-gold/40 py-3 font-display text-[clamp(1.25rem,3.6vw,2rem)] uppercase tracking-[0.04em] text-bone"
         >
           {event.dateLabel}
         </p>
 
-        <p class="mt-7 max-w-lg text-lg leading-relaxed text-muted md:text-xl">
+        <p class="mt-7 max-w-lg text-lg leading-relaxed text-bone/85 md:text-xl">
           {event.tagline}
         </p>
 
@@ -83,7 +79,6 @@ const heroPoster = '/images/event/hero-poster.jpg';
         </div>
       </div>
 
-      <!-- The logo is the hero image until the owner supplies footage. -->
       <div class="hidden justify-self-center lg:block">
         <img
           src="/images/brand/bnc-logo.png"
@@ -98,20 +93,29 @@ const heroPoster = '/images/event/hero-poster.jpg';
   </div>
 </section>
 
-<style>
-  /* Anyone who asks for reduced motion gets the poster frame, never playback. */
-  @media (prefers-reduced-motion: reduce) {
-    [data-hero-video] {
-      display: none;
-    }
-  }
-</style>
-
 <script>
-  // Belt and braces: some browsers still autoplay despite the OS setting.
   const video = document.querySelector<HTMLVideoElement>('[data-hero-video]');
-  if (video && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    video.pause();
-    video.removeAttribute('autoplay');
+
+  if (video) {
+    const motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Save-Data is the visitor's own explicit request to conserve data, so it
+    // is honoured; they still get the poster frame.
+    const saveData = (navigator as any).connection?.saveData === true;
+
+    if (motionOk && !saveData) {
+      for (const s of JSON.parse(video.dataset.sources ?? '[]')) {
+        const el = document.createElement('source');
+        el.src = s.src;
+        el.type = s.type;
+        video.appendChild(el);
+      }
+      // Fade in only once there are frames to show, so there is no flash of
+      // black between the poster and the first painted frame.
+      video.addEventListener('playing', () => video.classList.add('is-playing'), { once: true });
+      video.load();
+      video.play().catch(() => {
+        /* Autoplay refused — the poster and gradient still stand on their own. */
+      });
+    }
   }
 </script>

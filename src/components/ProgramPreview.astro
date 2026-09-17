@@ -14,7 +14,7 @@ import Button from './Button.astro';
     />
 
     <div class="mt-14 grid gap-5 md:grid-cols-3">
-      {schedule.map((day, i) => <DayCard day={day} index={i} />)}
+      {schedule.map((day) => <DayCard day={day} />)}
     </div>
 
     <div class="mt-12">

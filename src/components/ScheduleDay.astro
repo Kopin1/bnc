@@ -2,6 +2,7 @@
 import type { ScheduleDay } from '../data/schedule';
 import { timeSlots, sessionAt, eveningSessions, breakAfter } from '../data/schedule';
 import ScheduleItem from './ScheduleItem.astro';
+import { disciplineStyles } from '../data/taxonomy';
 
 interface Props { day: ScheduleDay }
 const { day } = Astro.props;
@@ -32,7 +33,7 @@ const categoryLabel: Record<string, string> = {
       <div class="bg-ink p-3"><span class="sr-only">Time</span></div>
       {
         rooms.map((room) => (
-          <div class="bg-ink p-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-pink">
+          <div class="bg-ink p-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-muted">
             {room}
           </div>
         ))
@@ -91,17 +92,23 @@ const categoryLabel: Record<string, string> = {
           return (
             <>
               <li>
-                <p class="rule flex items-baseline gap-3 pt-3 font-display text-lg text-gold">
+                <p class="rule flex items-baseline gap-3 pt-3 font-display text-lg text-bone">
                   {slot}
                   {end && <span class="text-sm font-normal text-muted">– {end}</span>}
                 </p>
                 <ul class="mt-4 space-y-3" role="list">
                   {inSlot.map(({ room, session }) => (
-                    <li class="border-l-2 border-pink/50 bg-aubergine-raised p-4 pl-4">
-                      <p class="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-pink">
+                    <li
+                      class={`border-l-[3px] bg-aubergine-raised p-4 ${
+                        session!.discipline
+                          ? disciplineStyles[session!.discipline].border
+                          : 'border-bone/25'
+                      }`}
+                    >
+                      <p class="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-muted">
                         {room}
                       </p>
-                      <div class="mt-1.5">
+                      <div class="mt-2">
                         <ScheduleItem session={session!} />
                       </div>
                     </li>
@@ -137,7 +144,7 @@ const categoryLabel: Record<string, string> = {
                 {session.artist && <p class="text-sm text-muted">{session.artist}</p>}
                 {session.note && <p class="mt-1 text-xs italic text-muted">{session.note}</p>}
               </div>
-              <span class="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-pink">
+              <span class="text-[0.625rem] font-bold uppercase tracking-[0.18em] text-muted">
                 {categoryLabel[session.category]}
               </span>
             </li>

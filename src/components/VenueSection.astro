@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import { event } from '../data/event';
 import { mapsUrl } from '../data/site';
 import SectionHeading from './SectionHeading.astro';
 import Button from './Button.astro';
+import venueMap from '../assets/event/venue-map.png';
 
 const { venue } = event;
 ---
@@ -29,8 +31,11 @@ const { venue } = event;
       </div>
     </div>
 
-    <!-- A drawn placemark rather than an embedded map: no third-party script,
-         no cookie banner, no layout shift. The link does the real work. -->
+    <!-- A real map, rendered from OpenStreetMap tiles at build time and tinted
+         to the palette (see scripts/make-venue-map.mjs). No embed, so no
+         third-party script, no cookie banner and nothing to load at runtime —
+         the link does the interactive part. The pin is dead centre because the
+         map is generated centred on the venue's coordinates. -->
     <a
       href={mapsUrl}
       target="_blank"
@@ -38,41 +43,67 @@ const { venue } = event;
       class="group relative block overflow-hidden border border-bone/15 no-underline"
       aria-label={`Open ${venue.name} in Google Maps`}
     >
-      <div
-        class="flex aspect-[4/3] items-center justify-center bg-[radial-gradient(90%_80%_at_50%_45%,#3d0b39_0%,#1a0518_70%)]"
-      >
-        <div
-          class="absolute inset-0 opacity-[0.16]"
-          style="background-image:
-            linear-gradient(to right, #f7be49 1px, transparent 1px),
-            linear-gradient(to bottom, #f7be49 1px, transparent 1px);
-            background-size: 56px 56px;"
-          aria-hidden="true"
-        >
-        </div>
+      <Image
+        src={venueMap}
+        alt={`Map showing ${venue.name} on ${venue.street} in central Stockholm`}
+        widths={[600, 900, 1200]}
+        sizes="(min-width: 1024px) 45vw, 92vw"
+        loading="lazy"
+        class="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+      />
 
-        <div class="relative text-center">
+      <!-- Marker, pinned to the centre of the image. -->
+      <span
+        class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full"
+        aria-hidden="true"
+      >
+        <span class="relative block">
           <svg
-            width="52"
-            height="52"
+            width="44"
+            height="44"
             viewBox="0 0 24 24"
             fill="none"
-            aria-hidden="true"
-            class="mx-auto text-pink transition-transform duration-500 group-hover:-translate-y-1"
+            class="drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-1"
           >
             <path
-              d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"
-              stroke="currentColor"
-              stroke-width="1.6"
+              d="M12 22s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"
+              fill="#f073ab"
+              stroke="#100310"
+              stroke-width="1.2"
             ></path>
-            <circle cx="12" cy="10" r="2.6" fill="currentColor"></circle>
+            <circle cx="12" cy="11" r="2.6" fill="#100310"></circle>
           </svg>
-          <p class="mt-4 font-display text-lg uppercase text-bone">{venue.street}</p>
-          <p class="mt-1 text-xs font-bold uppercase tracking-[0.18em] text-gold">
-            Open in Maps →
-          </p>
-        </div>
+        </span>
+      </span>
+
+      <!-- Pulse ring at the exact point, so the spot reads even at a glance. -->
+      <span
+        class="pointer-events-none absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-pink/30 ring-1 ring-pink/60"
+        aria-hidden="true"
+      >
+      </span>
+
+      <div
+        class="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-[linear-gradient(to_top,rgba(16,3,16,0.92),transparent)] p-4"
+      >
+        <p class="font-display text-sm uppercase text-bone">
+          {venue.street}
+        </p>
+        <p class="text-xs font-bold uppercase tracking-[0.16em] text-gold">Open in Maps →</p>
       </div>
     </a>
+  </div>
+
+  <!-- ODbL requires attribution for OpenStreetMap data. -->
+  <div class="shell mt-6 lg:text-right">
+    <p class="text-[0.6875rem] text-muted/70">
+      <Fragment set:html={'Map data &copy; '} /><a
+        href="https://www.openstreetmap.org/copyright"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="underline underline-offset-2 hover:text-gold">OpenStreetMap</a><Fragment
+        set:html={' contributors'}
+      />
+    </p>
   </div>
 </section>

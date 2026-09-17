@@ -3,12 +3,9 @@ import type { ScheduleDay } from '../data/schedule';
 
 interface Props {
   day: ScheduleDay;
-  /** Index drives the alternating accent so the three cards have rhythm. */
-  index: number;
 }
 
-const { day, index } = Astro.props;
-const accent = index === 1 ? 'text-pink' : 'text-gold';
+const { day } = Astro.props;
 ---
 
 <a
@@ -17,7 +14,7 @@ const accent = index === 1 ? 'text-pink' : 'text-gold';
 >
   <div>
     <div class="flex items-baseline justify-between gap-4">
-      <h3 class={`font-display text-[clamp(2rem,4.5vw,2.75rem)] uppercase ${accent}`}>{day.day}</h3>
+      <h3 class="font-display text-[clamp(2rem,4.5vw,2.75rem)] uppercase text-gold">{day.day}</h3>
       <span class="text-xs font-bold uppercase tracking-[0.16em] text-muted">{day.dateLabel}</span>
     </div>
 

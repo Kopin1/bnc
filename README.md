@@ -49,6 +49,7 @@ Almost every routine change is a data edit. Markup should not need touching.
 | Prices and what each pass includes | `src/data/passes.ts` |
 | Workshop timetable, parties, shows | `src/data/schedule.ts` |
 | Highlight strip, nav, intro chips | `src/data/site.ts` |
+| Instagram / social links | `event.social` in `src/data/event.ts` (header, drawer and footer all read from it) |
 
 ### Rolling over to a new year
 
@@ -62,11 +63,13 @@ Almost every routine change is a data edit. Markup should not need touching.
    the schema.org markup deliberately ships **no** `offers` block, so stale
    prices never reach Google.
 
-### Adding the hero video
+### The hero video
 
-See `public/video/README.md`. Drop in `hero.mp4` / `hero.webm`, add a poster
-frame, then set `heroVideo.enabled = true` in `src/data/event.ts`. The hero is
-designed to look finished without it.
+`public/video/hero.mp4` is in place and playing. The `<video>` ships with no
+`src`; the sources are attached from JS so the 5.2 MB is only fetched when it
+will be used — visitors who ask for reduced motion, or whose browser reports
+Save-Data, get the poster frame and download no video. To swap the footage, see
+`public/video/README.md`.
 
 ## How it is built
 
@@ -79,13 +82,43 @@ designed to look finished without it.
 - **Fonts** are self-hosted through Astro's font pipeline — Archivo Black for
   display, Manrope for body. No request to Google at runtime, and fallback
   metrics are generated so there is no layout shift on swap.
-- **No map embed.** The venue block is a drawn placemark that links out to
-  Google Maps — no third-party script, no cookie banner.
+- **No map embed.** The venue block shows a real map built from OpenStreetMap
+  tiles at build time (`scripts/make-venue-map.mjs`) and tinted to the palette,
+  with a pin on the venue and a link out to Google Maps. No third-party script,
+  no cookie banner, nothing fetched at runtime. The OSM attribution is required
+  by the licence.
 - **Accessibility.** Semantic landmarks, a skip link, visible gold focus rings,
   a real `aria-expanded` disclosure for the mobile menu. Every text/background
   pair in the palette meets WCAG AA (the lightest is 7.4:1).
 - **Motion** is one shared fade-up, disabled entirely under
   `prefers-reduced-motion`. Content is visible without JavaScript.
+
+## Colour coding
+
+The site carries two separate meanings in colour, and they are deliberately
+kept in different halves of the wheel so they can never be read as each other:
+
+| | Meaning | Colours | Form |
+| --- | --- | --- | --- |
+| **Warm** | **Discipline** — what you dance | Bachata `#F073AB`, Salsa Cubana `#F7BE49` | filled pill |
+| **Cool** | **Level** — how hard it is | Open `#7FD4F5`, Intermediate `#8AA4F7`, Advanced `#BB86F8` | 1–3 pips + label |
+
+Nothing else in the design is cool-toned, so a cool chip always means level.
+The smallest hue gap between the two families is 65°, every value clears WCAG
+AA on all three dark surfaces, and level is additionally encoded as a pip count
+so it still reads in greyscale and for colour-blind viewers. Both scales are
+explained by the `ColorKey` legend on `/program` and above the artist grid.
+
+Because pink now *means* Bachata, it is used for nothing else — day headings,
+room labels, map pins and eyebrows were all moved to gold or neutral.
+
+Definitions live in `src/data/taxonomy.ts`; the tokens are in
+`src/styles/global.css`. To restyle a discipline or level, change it in those
+two places only — `DisciplineTag`, `LevelTag` and `ColorKey` all read from them.
+
+A workshop's discipline is a property of the **class, not the teacher** (Cuban
+teachers run bachata-family classes and vice versa), so it is set per session
+in `src/data/schedule.ts`.
 
 ## Content status
 
