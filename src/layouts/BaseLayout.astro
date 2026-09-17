@@ -4,7 +4,6 @@ import { event, siteMeta } from '../data/event';
 import { priceConfirmed, currency, allPasses } from '../data/passes';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import MobileBookBar from '../components/MobileBookBar.astro';
 import { INDEXABLE } from '../../site.config.mjs';
 import '../styles/global.css';
 
@@ -119,7 +118,6 @@ const structuredData = {
     </main>
 
     <Footer />
-    <MobileBookBar />
 
     <script>
       // Two tiny behaviours, no framework: mark that JS is available (so the
