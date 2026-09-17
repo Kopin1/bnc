@@ -39,11 +39,28 @@ export default defineConfig({
   // Google, preloaded woff2 subsets, and generated fallback metrics (no CLS).
   fonts: [
     {
-      provider: fontProviders.google(),
-      name: 'Archivo Black',
+      // Client-supplied, self-hosted. Provenance and the licence note are in
+      // src/assets/fonts/README.md.
+      //
+      // Bold (700) only: nothing on the site renders at 900, and a preloaded
+      // weight that never paints is pure cost. The Black files are kept in
+      // src/assets/fonts if more heading weight is ever wanted — it measures
+      // just 3% wider than Bold, so it drops in without reflowing anything.
+      provider: fontProviders.local(),
+      name: 'Myriad Pro',
       cssVariable: '--font-display',
-      weights: [400],
-      subsets: ['latin', 'latin-ext'],
+      options: {
+        variants: [
+          {
+            src: [
+              './src/assets/fonts/MyriadPro-Bold.woff2',
+              './src/assets/fonts/MyriadPro-Bold.woff',
+            ],
+            weight: 700,
+            style: 'normal',
+          },
+        ],
+      },
       fallbacks: ['Impact', 'Haettenschweiler', 'sans-serif'],
     },
     {
