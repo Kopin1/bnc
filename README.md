@@ -120,6 +120,32 @@ A workshop's discipline is a property of the **class, not the teacher** (Cuban
 teachers run bachata-family classes and vice versa), so it is set per session
 in `src/data/schedule.ts`.
 
+## Search indexing (currently OFF)
+
+`site.config.mjs` holds one switch:
+
+```js
+export const INDEXABLE = false;
+```
+
+While it is `false` the build emits, together:
+
+- `<meta name="robots" content="noindex, nofollow">` on every page
+- `X-Robots-Tag: noindex, nofollow` on every path, via `dist/_headers`
+  (Cloudflare reads this) — which also covers the PDF and images, where there
+  is no HTML to carry a meta tag
+- a `robots.txt` that **allows** crawling, and **no sitemap**
+
+Crawling is allowed deliberately. `Disallow: /` would stop a crawler fetching
+the page at all, so it would never read the noindex — and a URL it already
+knows (this domain currently serves the live Drupal site) can sit in results
+with no description. Letting crawlers in to read the noindex is what actually
+keeps the site out, and clears the old pages too.
+
+**To launch: set `INDEXABLE = true` and rebuild.** That restores the sitemap,
+advertises it from `robots.txt`, and drops both the meta tag and the header.
+Do it once the lineup, prices and schedule are confirmed — see below.
+
 ## Content status
 
 Dates are confirmed for 2027. **Line-up, prices and the workshop grid are still
