@@ -23,3 +23,17 @@
  * noindex is what actually keeps it out — and drops the old pages too.
  */
 export const INDEXABLE = false;
+
+/**
+ * Whether the detailed workshop timetable is shown on /program.
+ *
+ * FALSE while the grid is still last edition's content re-dated onto 2027
+ * (see the header of src/data/schedule.ts). The evening programme — parties,
+ * drop-in classes, the line-up presentation and showtime — is shown either
+ * way, since those are structural to the weekend rather than per-teacher.
+ *
+ * The workshop data stays in place and keeps driving the counts elsewhere on
+ * the site; only the rendered grid and the mobile timeline are held back. Set
+ * to true once the 2027 timetable is confirmed.
+ */
+export const SHOW_WORKSHOP_SCHEDULE = false;

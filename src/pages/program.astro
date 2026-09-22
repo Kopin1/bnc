@@ -5,6 +5,7 @@ import Button from '../components/Button.astro';
 import ColorKey from '../components/ColorKey.astro';
 import { schedule, workshopCount } from '../data/schedule';
 import { event } from '../data/event';
+import { SHOW_WORKSHOP_SCHEDULE } from '../../site.config.mjs';
 import { Image } from 'astro:assets';
 import workshopPhoto from '../assets/event/workshop-floor.jpg';
 ---
@@ -83,13 +84,16 @@ import workshopPhoto from '../assets/event/workshop-floor.jpg';
   <!-- Days -->
   <div class="bg-ink">
     <div class="shell">
-      <ColorKey class="border-b border-bone/12 py-10" />
+      {SHOW_WORKSHOP_SCHEDULE && <ColorKey class="border-b border-bone/12 py-10" />}
 
       {schedule.map((day) => <ScheduleDay day={day} />)}
 
       <p class="rule-soft py-10 text-sm text-muted">
-        Workshop line-up shown from the most recent edition while the {event.year} grid is
-        finalised. We reserve the right to make changes.
+        {
+          SHOW_WORKSHOP_SCHEDULE
+            ? `Workshop line-up shown from the most recent edition while the ${event.year} grid is finalised.`
+            : `The full workshop timetable for ${event.year} is being finalised and will be published here.`
+        } We reserve the right to make changes.
       </p>
     </div>
   </div>

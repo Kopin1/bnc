@@ -120,6 +120,23 @@ A workshop's discipline is a property of the **class, not the teacher** (Cuban
 teachers run bachata-family classes and vice versa), so it is set per session
 in `src/data/schedule.ts`.
 
+## Workshop timetable (currently hidden)
+
+`site.config.mjs` also holds:
+
+```js
+export const SHOW_WORKSHOP_SCHEDULE = false;
+```
+
+While it is `false`, `/program` shows each day's summary plus the **evening
+programme** (drop-in classes, parties, line-up presentation, showtime) and a
+"timetable to be announced" note. The room-by-time grid, the mobile timeline
+and the colour key are held back, and the closing note changes wording to match.
+
+The workshop data itself stays in `src/data/schedule.ts` and still drives the
+counts elsewhere on the site. Set the flag to `true` once the 2027 timetable is
+confirmed and everything returns.
+
 ## Search indexing (currently OFF)
 
 `site.config.mjs` holds one switch:

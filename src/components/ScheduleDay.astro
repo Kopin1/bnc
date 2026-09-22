@@ -2,6 +2,7 @@
 import type { ScheduleDay } from '../data/schedule';
 import { timeSlots, sessionAt, eveningSessions, breakAfter } from '../data/schedule';
 import ScheduleItem from './ScheduleItem.astro';
+import { SHOW_WORKSHOP_SCHEDULE } from '../../site.config.mjs';
 import { disciplineStyles } from '../data/taxonomy';
 
 interface Props { day: ScheduleDay }
@@ -24,6 +25,9 @@ const categoryLabel: Record<string, string> = {
     <p class="text-sm font-bold uppercase tracking-[0.16em] text-muted">{day.dateLabel}</p>
   </header>
 
+  {
+    SHOW_WORKSHOP_SCHEDULE && (
+      <>
   <!-- ── Desktop: proper timetable matrix ─────────────────────────────── -->
   <div class="mt-10 hidden lg:block">
     <div
@@ -126,6 +130,25 @@ const categoryLabel: Record<string, string> = {
       }
     </ol>
   </div>
+
+      </>
+    )
+  }
+
+  {
+    /* With the timetable held back, each day still needs to say what it is —
+       and Sunday has no evening items at all, so without this it would render
+       as a bare heading. The summary lines already describe every day. */
+    !SHOW_WORKSHOP_SCHEDULE && (
+      <div class="mt-8 max-w-xl">
+        <p class="text-lg text-bone">{day.summary}</p>
+        <p class="mt-1 text-muted">{day.subline}</p>
+        <p class="mt-5 text-sm italic text-muted/80">
+          Full workshop timetable to be announced.
+        </p>
+      </div>
+    )
+  }
 
   <!-- ── Evening: parties, shows, drop-in ─────────────────────────────── -->
   {
