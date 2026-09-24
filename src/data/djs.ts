@@ -2,9 +2,9 @@ import type { ImageMetadata } from 'astro';
 import type { Discipline } from './artists';
 
 /**
- * MIGRATION DATA — DJ lineup from the current Drupal site (2026-09-17).
- * The old site had a dedicated /djs route; here they are a section of the
- * home page instead. Drop photos into `src/assets/djs/` named after the slug.
+ * 2027 DJ lineup, supplied by the organisers (2026-09-24). Array order is
+ * display order. The old site had a dedicated /djs route; here they are a
+ * section of the home page instead. Drop photos into `src/assets/djs/` named after the slug.
  */
 
 export interface Dj {
@@ -12,7 +12,8 @@ export interface Dj {
   name: string;
   discipline: Discipline;
   city?: string;
-  country: string;
+  /** Not rendered in the DJ grid; kept where known. */
+  country?: string;
   bio?: string[];
   youtubeId?: string;
 }
@@ -29,9 +30,11 @@ export const djs: Dj[] = [
       'DJ Isra was born in Cuba and has been moving the Latin crowd in Sweden for over six years with his Cuban sound. With his sense for mixing classic Cuban salsa with timba and cubaton, he has played at several international festivals alongside artists such as Gente de Zona, Los Van Van, Los 4, Habana D’Primera and Maykel Blanco y su Salsa Mayor.',
     ],
   },
-  { slug: 'dj-happy-feet', name: 'DJ Happy Feet', discipline: 'Bachata', city: 'Stockholm', country: 'Sweden' },
-  { slug: 'dj-bachflow', name: 'DJ Bachflow', discipline: 'Bachata', city: 'Stockholm', country: 'Sweden' },
+  { slug: 'dj-poggy', name: 'DJ Poggy', discipline: 'Bachata' },
+  { slug: 'dj-dlux', name: 'DJ D’Lux', discipline: 'Bachata' },
+  { slug: 'dj-aura', name: 'DJ Aura', discipline: 'Bachata' },
   { slug: 'dj-neit', name: 'DJ Neit', discipline: 'Bachata', city: 'Stockholm', country: 'Sweden' },
+  { slug: 'dj-bachflow', name: 'DJ BachFlow', discipline: 'Bachata', city: 'Stockholm', country: 'Sweden' },
   { slug: 'dj-valenz', name: 'DJ Valenz', discipline: 'Bachata', city: 'Stockholm', country: 'Sweden' },
 ];
 

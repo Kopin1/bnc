@@ -8,8 +8,8 @@ the repo as a **temporary placeholder**. Nothing hotlinks the old site.
 
 | Location | Contents | Why there |
 | --- | --- | --- |
-| `src/assets/artists/` | 13 artist photos | In `src/`, not `public/`, so Astro's image pipeline emits responsive WebP/AVIF at build time. This is what takes the 850 KB originals down to 10–60 KB. |
-| `src/assets/djs/` | 5 DJ photos | Same. |
+| `src/assets/artists/` | 8 artist photos | In `src/`, not `public/`, so Astro's image pipeline emits responsive WebP/AVIF at build time. This is what takes the 850 KB originals down to 10–60 KB. |
+| `src/assets/djs/` | 7 DJ photos | Same. |
 | `public/images/brand/` | Logo, star, OG card | Referenced by URL from `<meta>` tags and the header, so they must keep stable paths. |
 | `public/favicon.ico` | Favicon | From the old theme, unchanged. |
 | `reference/` | 2026 workshop grid (PDF + JPG) | Source for the transcribed schedule. **Not deployed** — it is stale and 10 MB. |
@@ -21,24 +21,25 @@ site renders. Source path: `/sites/default/files/<YYYY-MM>/<name>.jpg`.
 
 | Local file | Source filename on old site | Size |
 | --- | --- | --- |
-| `artists/lorena-and-marc.jpg` | `2025-10/Marc & Lorena.jpg` | 1080×1080 |
-| `artists/kevin-and-geysa.jpg` | `2025-10/Kevin  & Geysa .jpg` | 1080×1080 |
-| `artists/danel-and-ariana.jpg` | `2025-10/Adel & Ariana .jpg` | 1080×1080 |
-| `artists/mario-and-nia.jpg` | `2025-10/Mario & Nia.jpg` | 1080×1080 |
-| `artists/arturo-rojas.jpg` | `2025-10/Arturo .jpg` | 1080×1080 |
-| `artists/reynaldo-salazar.jpg` | `2025-10/Reynaldo.jpg` | 1080×1080 |
-| `artists/julia-and-ezequiel.jpg` | `2025-10/Julia & Ezequiel .jpg` | 1080×1080 |
-| `artists/alberto-and-lisondra.jpg` | `2025-10/Alberto  & Lisondra .jpg` | 1080×1080 |
-| `artists/saul-perez-valdes.jpg` | `2025-10/Saul.jpg` | 1080×1080 |
-| `artists/juliette-anturi.jpg` | `2025-11/Juliette.jpg` | 1080×1080 |
-| `artists/rodrigo-and-lana.jpg` | `2025-11/Rodrigo y Lana.jpg` | 1080×1080 |
-| `artists/linda-bertling.jpg` | `2025-11/Linda.jpg` | 1080×1080 |
-| `artists/videographer-josefin-romero.jpg` | `2026-02/JOSEFIN.jpg` | 1080×1080 |
-| `djs/dj-isra.jpg` | `2025-04/ISRA_0.jpg` | 1080×1080 |
-| `djs/dj-happy-feet.jpg` | `2026-02/DJ HAPPY FEET.jpg` | 1080×1080 |
-| `djs/dj-bachflow.jpg` | `2026-02/DJ BACH FLOW.jpg` | 1080×1080 |
-| `djs/dj-neit.jpg` | `2026-02/DJ NEIT.jpg` | 1080×1080 |
-| `djs/dj-valenz.jpg` | `2026-02/DJ VALENZ.jpg` | 1080×1080 |
+| `artists/danel-and-ariana.jpg` | 2027 lineup folder (`danel & Ariana.jpg`) | 1080×1080 |
+| `artists/ismael-and-irene.jpg` | 2027 lineup folder (`Ismael & Irene.jpg`) | 1080×1080 |
+| `artists/alberto-and-lisondra.jpg` | 2027 lineup folder (`Alberto & Lisondra.jpg`) | 1080×1080 |
+| `artists/arturo-rojas.jpg` | 2027 lineup folder (`Arturo Rojas.jpg`) | 1080×1080 |
+| `artists/julia-and-ezequiel.jpg` | 2027 lineup folder (`julia & ezequiel.jpg`) | 1080×1080 |
+| `artists/diasmani.jpg` | 2027 lineup folder (`Diasmani.jpg`) | 1080×1080 |
+| `artists/juliette-and-linda.jpg` | 2027 lineup folder (`Juliette & Linda.jpg`) | 1080×1080 |
+| `artists/videographer-josefin-romero.jpg` | Old site `2026-02/JOSEFIN.jpg` | 1080×1080 |
+| `djs/dj-isra.jpg` | 2027 DJ folder (`DJ ISRA.jpg`) | 1080×1080 |
+| `djs/dj-poggy.jpg` | 2027 DJ folder (`DJ POGGY.jpg`) | 1080×1080 |
+| `djs/dj-dlux.jpg` | 2027 DJ folder (`DJ DLUX.jpg`) | 1080×1080 |
+| `djs/dj-aura.jpg` | 2027 DJ folder (`DJ AURA.jpg`) | 1080×1080 |
+| `djs/dj-neit.jpg` | 2027 DJ folder (`DJ NEIT.jpg`) | 1080×1080 |
+| `djs/dj-bachflow.jpg` | 2027 DJ folder (`DJ BACH FLOW.jpg`) | 1080×1080 |
+| `djs/dj-valenz.jpg` | 2027 DJ folder (`DJ VALENZ.jpg`) | 1080×1080 |
+
+The lineup photos were supplied by the organisers on 24 Sep 2026
+(`B&C WEEKEND 2027 ARTISTER HEMSIDA` / `DJs HEMSIDA`) and replace the
+old-site originals. Only the videographer photo still comes from the old site.
 
 To swap an artist photo: drop a square JPG into `src/assets/artists/` named
 after the artist's `slug` in `src/data/artists.ts`. Nothing else to change.

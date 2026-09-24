@@ -15,7 +15,7 @@ import DisciplineTag from './DisciplineTag.astro';
 
     <!-- Tighter and more compact than the artist grid on purpose: the DJs are
          a supporting act on the page, not a second headline block. -->
-    <ul class="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5" role="list">
+    <ul class="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7" role="list">
       {
         djs.map((dj) => {
           const image = djImage(dj.slug);
@@ -26,7 +26,7 @@ import DisciplineTag from './DisciplineTag.astro';
                   src={image}
                   alt={dj.name}
                   widths={[220, 340, 440]}
-                  sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 45vw"
+                  sizes="(min-width: 1024px) 13vw, (min-width: 640px) 30vw, 45vw"
                   loading="lazy"
                   class="aspect-[3/4] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                 />

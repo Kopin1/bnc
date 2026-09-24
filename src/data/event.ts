@@ -58,8 +58,8 @@ export const event = {
     email: 'info@stockholmsalsadance.com',
   },
 
-  /** Tickster shop currently linked from the live site. Replace when reissued. */
-  bookingUrl: 'https://secure.tickster.com/kd54lz707huxke8',
+  /** 2027 registration on Coursely (supplied 2026-09-24). Every Book button links here. */
+  bookingUrl: 'https://app.coursely.se/register/6f1aex9s8q9oyc5c?lang=en',
 
   /**
    * Printable workshop grid. The organiser's 2026 PDF is NOT linked here — it

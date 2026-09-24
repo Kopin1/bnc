@@ -4,8 +4,8 @@ import SectionHeading from './SectionHeading.astro';
 import ArtistCard from './ArtistCard.astro';
 import ColorKey from './ColorKey.astro';
 
-// Rhythm without gaps: three large portraits on top, the rest square beneath.
-// Both blocks are three columns wide, so the grid always tiles cleanly.
+// Rhythm without gaps: three large portraits on top, the rest beneath. The
+// lower block is four wide on desktop so the current four cards fill one row.
 const featured = teachingArtists.filter((a) => a.feature);
 const rest = teachingArtists.filter((a) => !a.feature);
 ---
@@ -15,7 +15,7 @@ const rest = teachingArtists.filter((a) => !a.feature);
     <SectionHeading
       eyebrow="Line-up"
       title="Artists & teachers"
-      lede="Instructors from Barcelona, Havana, Germany and Stockholm teaching Bachata and Salsa Cubana all weekend."
+      lede="Instructors from Barcelona, Cuba, Peru and Stockholm teaching Bachata and Salsa Cubana all weekend."
     />
 
     <ColorKey showLevels={false} class="mt-9" />
@@ -24,7 +24,7 @@ const rest = teachingArtists.filter((a) => !a.feature);
       {featured.map((artist, i) => <ArtistCard artist={artist} feature eager={i === 0} />)}
     </div>
 
-    <div class="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-3">
+    <div class="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-4">
       {rest.map((artist) => <ArtistCard artist={artist} />)}
     </div>
   </div>

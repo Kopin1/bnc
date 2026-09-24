@@ -1,5 +1,5 @@
 ---
-import { mainPasses, singleTickets, formatPrice, priceConfirmed } from '../data/passes';
+import { mainPasses, singleTickets, formatPrice, priceOn, priceConfirmed } from '../data/passes';
 import { event } from '../data/event';
 import SectionHeading from './SectionHeading.astro';
 import PassCard from './PassCard.astro';
@@ -37,7 +37,7 @@ import PassCard from './PassCard.astro';
               </div>
 
               <span class="col-start-1 row-start-2 font-display text-xl text-plum sm:col-start-2 sm:row-start-1">
-                {formatPrice(t.price)}
+                {formatPrice(priceOn(t))}
               </span>
 
               <a
@@ -56,8 +56,8 @@ import PassCard from './PassCard.astro';
       {
         !priceConfirmed && (
           <p class="mt-6 max-w-2xl text-sm text-plum/65">
-            Prices shown are from the most recent edition and are being confirmed for the next one.
-            Booking goes to our Tickster shop.
+            Day pass and single ticket prices are from the most recent edition and are being
+            confirmed for the next one. Registration is handled by Coursely.
           </p>
         )
       }

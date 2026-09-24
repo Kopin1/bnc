@@ -1,13 +1,15 @@
 ---
 import type { Pass } from '../data/passes';
-import { formatPrice, bookingUrlFor } from '../data/passes';
+import { formatPrice, bookingUrlFor, priceOn, tierNote } from '../data/passes';
 
 interface Props { pass: Pass }
 const { pass } = Astro.props;
 const featured = pass.featured ?? false;
+const note = pass.tiers && tierNote(pass.tiers);
 ---
 
 <article
+  data-price-tiers={pass.tiers && JSON.stringify(pass.tiers)}
   class={`flex flex-col p-7 md:p-9 ${
     featured
       ? 'bg-plum text-cream ring-1 ring-plum'
@@ -32,8 +34,15 @@ const featured = pass.featured ?? false;
   </p>
 
   <p class={`mt-7 font-display text-[clamp(2.75rem,6.5vw,4.2rem)] ${featured ? 'text-cream' : 'text-plum'}`}>
-    {formatPrice(pass.price)}
+    <span data-price>{formatPrice(priceOn(pass))}</span>
   </p>
+  {
+    pass.tiers && (
+      <p data-price-note hidden={!note} class={`mt-2 text-sm ${featured ? 'text-gold' : 'text-plum-light'}`}>
+        {note}
+      </p>
+    )
+  }
 
   <!-- `grow` lets the inclusions list absorb the height difference between
        cards, so both booking buttons line up along the bottom edge. -->
@@ -68,6 +77,25 @@ const featured = pass.featured ?? false;
       featured ? 'bg-gold text-ink hover:bg-gold-soft' : 'bg-plum text-cream hover:bg-plum-light'
     }`}
   >
-    Book {pass.name}<span class="sr-only"> — opens Tickster in a new tab</span>
+    Book {pass.name}<span class="sr-only"> — opens registration in a new tab</span>
   </a>
 </article>
+
+<script>
+  // The site is static, so the HTML carries the price that applied on the day
+  // it was built. Re-pick the tier on the visitor's (Stockholm) date so a price
+  // step takes effect on the day, not on the next deploy.
+  import { formatPrice, tierOn, tierNote, type PriceTier } from '../data/passes';
+
+  for (const card of document.querySelectorAll<HTMLElement>('[data-price-tiers]')) {
+    const tiers: PriceTier[] = JSON.parse(card.dataset.priceTiers!);
+    const price = card.querySelector<HTMLElement>('[data-price]');
+    const note = card.querySelector<HTMLElement>('[data-price-note]');
+    if (price) price.textContent = formatPrice(tierOn(tiers).current.price);
+    if (note) {
+      const text = tierNote(tiers);
+      note.textContent = text ?? '';
+      note.hidden = !text;
+    }
+  }
+</script>

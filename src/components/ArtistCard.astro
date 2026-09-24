@@ -28,7 +28,7 @@ const place = [artist.city, artist.country].filter(Boolean).join(', ');
         sizes={
           feature
             ? '(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw'
-            : '(min-width: 1024px) 30vw, (min-width: 640px) 30vw, 45vw'
+            : '(min-width: 1024px) 23vw, 45vw'
         }
         loading={eager ? 'eager' : 'lazy'}
         fetchpriority={eager ? 'high' : 'auto'}
@@ -52,8 +52,7 @@ const place = [artist.city, artist.country].filter(Boolean).join(', ');
   <figcaption class="absolute inset-x-0 bottom-0 p-4 md:p-5">
     <DisciplineTag discipline={artist.discipline} />
     <!-- One size for every artist, at the larger of the two former values.
-         The featured cards are taller, not wider (both grids are 3 columns on
-         desktop), so varying the name size only made the lineup look
+         The featured cards are larger, but varying the name size only made the lineup look
          inconsistently ranked. -->
     <h3 class="mt-2 text-[clamp(1.15rem,2.4vw,1.9rem)] uppercase text-bone">
       {artist.name}

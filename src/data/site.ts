@@ -18,7 +18,7 @@ import { schedule, workshopCount } from './schedule';
 /** Distinct countries across the teaching lineup and the DJs. */
 const countries = new Set(
   [...teachingArtists, ...djs]
-    .flatMap((p) => p.country.split('/'))
+    .flatMap((p) => (p.country ?? '').split('/'))
     .map((c) => c.trim())
     .filter(Boolean),
 );

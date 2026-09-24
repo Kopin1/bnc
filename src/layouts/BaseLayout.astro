@@ -1,7 +1,7 @@
 ---
 import { Font } from 'astro:assets';
 import { event, siteMeta } from '../data/event';
-import { priceConfirmed, currency, allPasses } from '../data/passes';
+import { priceConfirmed, currency, allPasses, priceOn } from '../data/passes';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { INDEXABLE } from '../../site.config.mjs';
@@ -57,7 +57,7 @@ const structuredData = {
         offers: allPasses.map((p) => ({
           '@type': 'Offer',
           name: p.name,
-          price: p.price,
+          price: priceOn(p),
           priceCurrency: currency,
           url: event.bookingUrl,
           availability: 'https://schema.org/InStock',
