@@ -31,6 +31,10 @@ export default defineConfig({
   site: 'https://bachataandcubanweekend.com',
   output: 'static',
   trailingSlash: 'never',
+  // Emit program.html rather than program/index.html. Cloudflare serves a
+  // directory index only at the slashed URL (/program -> 307 -> /program/),
+  // which would contradict the slash-less canonical and sitemap URLs.
+  build: { format: 'file' },
   // No sitemap while the site is not indexable — no point advertising URLs
   // we are actively asking search engines to leave alone.
   integrations: [INDEXABLE && sitemap(), robotsHeader],
