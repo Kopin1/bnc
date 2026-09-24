@@ -1,0 +1,20 @@
+# Old Drupal URLs → sections of the new site. Cloudflare reads this file from
+# the build output. The first matching rule wins, so the DJ rule must come
+# before the general artist rule (the old site filed DJs under /artists/dj-…).
+#
+# The URL list came from the Wayback Machine on 2026-09-24. The wildcards also
+# cover profile pages that were never archived.
+
+/artists/dj-*                /#djs       301
+/artists/*                   /#artists   301
+/artists                     /#artists   301
+/artists/                    /#artists   301
+
+/djs                         /#djs       301
+/djs/                        /#djs       301
+
+/registration-and-prices     /#passes    301
+/registration-and-prices/    /#passes    301
+
+/workshops                   /program    301
+/workshops/                  /program    301
