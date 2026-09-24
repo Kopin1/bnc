@@ -6,11 +6,9 @@
 /**
  * Whether search engines may index the site.
  *
- * FALSE until the 2027 lineup, prices and schedule are confirmed — the site
- * currently shows last edition's content as placeholders and must not be
- * picked up for "Bachata Stockholm" while that is true.
- *
- * Flipping this to `true` is the whole launch step. It controls, together:
+ * TRUE since 2026-09-24, when the domain moved to this site with the 2027
+ * lineup and Full Pass prices. Set it back to false to hide the site from
+ * search engines again. It controls, together:
  *   - the <meta name="robots"> tag on every page      (BaseLayout.astro)
  *   - /robots.txt                                      (src/pages/robots.txt.ts)
  *   - the X-Robots-Tag response header on every path   (dist/_headers, below)
@@ -22,7 +20,7 @@
  * can linger in results with no description. Letting crawlers in to read the
  * noindex is what actually keeps it out — and drops the old pages too.
  */
-export const INDEXABLE = false;
+export const INDEXABLE = true;
 
 /**
  * Whether the detailed workshop timetable is shown on /program.

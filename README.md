@@ -137,13 +137,16 @@ The workshop data itself stays in `src/data/schedule.ts` and still drives the
 counts elsewhere on the site. Set the flag to `true` once the 2027 timetable is
 confirmed and everything returns.
 
-## Search indexing (currently OFF)
+## Search indexing (currently ON)
 
 `site.config.mjs` holds one switch:
 
 ```js
-export const INDEXABLE = false;
+export const INDEXABLE = true;
 ```
+
+It was switched on on 24 September 2026, when the domain moved over from the
+old Drupal site.
 
 While it is `false` the build emits, together:
 
@@ -159,12 +162,12 @@ knows (this domain currently serves the live Drupal site) can sit in results
 with no description. Letting crawlers in to read the noindex is what actually
 keeps the site out, and clears the old pages too.
 
-**To launch: set `INDEXABLE = true` and rebuild.** That restores the sitemap,
+While it is `true` (the launch state), the build generates the sitemap,
 advertises it from `robots.txt`, and drops both the meta tag and the header.
-Do it once the lineup, prices and schedule are confirmed — see below.
 
 ## Content status
 
-Dates are confirmed for 2027. **Line-up, prices and the workshop grid are still
-migration placeholders** carried over from the previous edition — see
-`ASSET-INVENTORY.md` for provenance and the outstanding list.
+Confirmed for 2027: dates, the artist and DJ line-up, the Full Pass price tiers
+and the Coursely registration link. **Still placeholders from the previous
+edition:** the Day Pass and single-ticket prices, and the workshop grid (hidden
+via `SHOW_WORKSHOP_SCHEDULE`). See `ASSET-INVENTORY.md` for image provenance.
