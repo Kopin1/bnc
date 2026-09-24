@@ -25,10 +25,10 @@ const robotsHeader = {
   },
 };
 
-// Update `site` to the production domain before the first Cloudflare deploy.
+// Production domain, without www — Cloudflare redirects www to it.
 // It drives canonical URLs, Open Graph URLs and sitemap.xml.
 export default defineConfig({
-  site: 'https://www.bachataandcubanweekend.com',
+  site: 'https://bachataandcubanweekend.com',
   output: 'static',
   trailingSlash: 'never',
   // No sitemap while the site is not indexable — no point advertising URLs
