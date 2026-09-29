@@ -31,8 +31,6 @@ export interface Artist {
    */
   bio?: string[];
   youtubeId?: string;
-  /** Larger cards in the editorial grid. Used to break up the rhythm. */
-  feature?: boolean;
 }
 
 export const artists: Artist[] = [
@@ -43,7 +41,6 @@ export const artists: Artist[] = [
     city: 'Barcelona',
     country: 'Spain',
     role: 'teacher',
-    feature: true,
   },
   {
     slug: 'ismael-and-irene',
@@ -51,7 +48,6 @@ export const artists: Artist[] = [
     discipline: 'Salsa Cubana',
     country: 'Cuba / Spain',
     role: 'teacher',
-    feature: true,
   },
   {
     slug: 'alberto-and-lisondra',
@@ -61,7 +57,6 @@ export const artists: Artist[] = [
     country: 'Sweden',
     role: 'teacher',
     youtubeId: 'DgK9bKg9tSk',
-    feature: true,
     bio: [
       'Alberto and Lisondra are a Bachata couple based in Stockholm, teaching Bachata fusion with a focus on clear leading and responsive following.',
     ],
@@ -102,6 +97,14 @@ export const artists: Artist[] = [
     discipline: 'Salsa Cubana',
     city: 'Stockholm',
     country: 'Sweden',
+    role: 'teacher',
+  },
+  {
+    slug: 'yordano-and-agnes',
+    name: 'Yordano & Agnes',
+    discipline: 'Salsa Cubana',
+    city: 'Oslo',
+    country: 'Norway',
     role: 'teacher',
   },
   {

@@ -3,11 +3,6 @@ import { teachingArtists } from '../data/artists';
 import SectionHeading from './SectionHeading.astro';
 import ArtistCard from './ArtistCard.astro';
 import ColorKey from './ColorKey.astro';
-
-// Rhythm without gaps: three large portraits on top, the rest beneath. The
-// lower block is four wide on desktop so the current four cards fill one row.
-const featured = teachingArtists.filter((a) => a.feature);
-const rest = teachingArtists.filter((a) => !a.feature);
 ---
 
 <section id="artists" class="bg-aubergine py-24 md:py-32" data-reveal>
@@ -15,17 +10,15 @@ const rest = teachingArtists.filter((a) => !a.feature);
     <SectionHeading
       eyebrow="Line-up"
       title="Artists & teachers"
-      lede="Instructors from Barcelona, Cuba, Peru and Stockholm teaching Bachata and Salsa Cubana all weekend."
+      lede="Instructors from Barcelona, Cuba, Peru, Oslo and Stockholm teaching Bachata and Salsa Cubana all weekend."
     />
 
     <ColorKey showLevels={false} class="mt-9" />
 
-    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {featured.map((artist, i) => <ArtistCard artist={artist} feature eager={i === 0} />)}
-    </div>
-
-    <div class="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-4">
-      {rest.map((artist) => <ArtistCard artist={artist} />)}
+    <!-- Every artist gets the same card: 4 across on desktop, 2 on mobile, so
+         the current eight fill every row. -->
+    <div class="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
+      {teachingArtists.map((artist, i) => <ArtistCard artist={artist} eager={i < 4} />)}
     </div>
   </div>
 </section>
