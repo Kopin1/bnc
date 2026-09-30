@@ -29,7 +29,6 @@ site renders. Source path: `/sites/default/files/<YYYY-MM>/<name>.jpg`.
 | `artists/diasmani.jpg` | 2027 lineup folder (`Diasmani.jpg`) | 1080×1080 |
 | `artists/juliette-and-linda.jpg` | 2027 lineup folder (`Juliette & Linda.jpg`) | 1080×1080 |
 | `artists/yordano-and-agnes.jpg` | Supplied 29 Sep 2026 (`YORDANO & AGNES.jpg`) | 1080×1080 |
-| `artists/videographer-josefin-romero.jpg` | Old site `2026-02/JOSEFIN.jpg` | 1080×1080 |
 | `djs/dj-isra.jpg` | 2027 DJ folder (`DJ ISRA.jpg`) | 1080×1080 |
 | `djs/dj-poggy.jpg` | 2027 DJ folder (`DJ POGGY.jpg`) | 1080×1080 |
 | `djs/dj-dlux.jpg` | 2027 DJ folder (`DJ DLUX.jpg`) | 1080×1080 |
@@ -37,10 +36,11 @@ site renders. Source path: `/sites/default/files/<YYYY-MM>/<name>.jpg`.
 | `djs/dj-neit.jpg` | 2027 DJ folder (`DJ NEIT.jpg`) | 1080×1080 |
 | `djs/dj-bachflow.jpg` | 2027 DJ folder (`DJ BACH FLOW.jpg`) | 1080×1080 |
 | `djs/dj-valenz.jpg` | 2027 DJ folder (`DJ VALENZ.jpg`) | 1080×1080 |
+| `crew/sara-karlstrom.jpg` | Supplied 30 Sep 2026 (`SARA VIDEOGRAF.jpg`) | 1080×1080 |
 
 The lineup photos were supplied by the organisers on 24 Sep 2026
 (`B&C WEEKEND 2027 ARTISTER HEMSIDA` / `DJs HEMSIDA`) and replace the
-old-site originals. Only the videographer photo still comes from the old site.
+old-site originals.
 
 To swap an artist photo: drop a square JPG into `src/assets/artists/` named
 after the artist's `slug` in `src/data/artists.ts`. Nothing else to change.

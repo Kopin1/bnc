@@ -11,9 +11,6 @@ import type { ImageMetadata } from 'astro';
 
 export type Discipline = 'Bachata' | 'Salsa Cubana';
 
-/** `teacher` appears in the artist grid; `crew` is kept for reference only. */
-export type ArtistRole = 'teacher' | 'crew';
-
 export interface Artist {
   slug: string;
   /** Display name, title-cased here and uppercased in CSS where wanted. */
@@ -21,7 +18,6 @@ export interface Artist {
   discipline: Discipline;
   city?: string;
   country: string;
-  role: ArtistRole;
   /** Optional teaser line. Kept short — the grid is image-first. */
   descriptor?: string;
   /**
@@ -40,14 +36,12 @@ export const artists: Artist[] = [
     discipline: 'Bachata',
     city: 'Barcelona',
     country: 'Spain',
-    role: 'teacher',
   },
   {
     slug: 'ismael-and-irene',
     name: 'Ismael & Irene',
     discipline: 'Salsa Cubana',
     country: 'Cuba / Spain',
-    role: 'teacher',
   },
   {
     slug: 'alberto-and-lisondra',
@@ -55,7 +49,6 @@ export const artists: Artist[] = [
     discipline: 'Bachata',
     city: 'Stockholm',
     country: 'Sweden',
-    role: 'teacher',
     youtubeId: 'DgK9bKg9tSk',
     bio: [
       'Alberto and Lisondra are a Bachata couple based in Stockholm, teaching Bachata fusion with a focus on clear leading and responsive following.',
@@ -66,7 +59,6 @@ export const artists: Artist[] = [
     name: 'Arturo Rojas',
     discipline: 'Salsa Cubana',
     country: 'Peru / Sweden',
-    role: 'teacher',
     descriptor: 'Rueda de Casino',
     youtubeId: '1Hn5dGGEF4Q',
     bio: [
@@ -82,14 +74,12 @@ export const artists: Artist[] = [
     discipline: 'Bachata',
     city: 'Stockholm',
     country: 'Sweden',
-    role: 'teacher',
   },
   {
     slug: 'diasmani',
     name: 'Diasmani',
     discipline: 'Salsa Cubana',
     country: 'Cuba',
-    role: 'teacher',
   },
   {
     slug: 'juliette-and-linda',
@@ -97,7 +87,6 @@ export const artists: Artist[] = [
     discipline: 'Salsa Cubana',
     city: 'Stockholm',
     country: 'Sweden',
-    role: 'teacher',
   },
   {
     slug: 'yordano-and-agnes',
@@ -105,23 +94,11 @@ export const artists: Artist[] = [
     discipline: 'Salsa Cubana',
     city: 'Oslo',
     country: 'Norway',
-    role: 'teacher',
-  },
-  {
-    // Listed under "Artists" on the old site but filed as Bachata by mistake —
-    // she is the event videographer, not a teacher, and is not in the schedule.
-    slug: 'videographer-josefin-romero',
-    name: 'Josefin Romero',
-    discipline: 'Bachata',
-    city: 'Stockholm',
-    country: 'Sweden',
-    role: 'crew',
-    descriptor: 'Videographer',
   },
 ];
 
-/** Only the people who actually teach are shown in the lineup grid. */
-export const teachingArtists = artists.filter((a) => a.role === 'teacher');
+/** Everyone in `artists` teaches. Event crew live in `crew.ts`. */
+export const teachingArtists = artists;
 
 /**
  * Photos live in `src/assets` so Astro can emit responsive AVIF/WebP at build

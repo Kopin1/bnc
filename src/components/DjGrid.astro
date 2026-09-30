@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { djs, djImage } from '../data/djs';
 import SectionHeading from './SectionHeading.astro';
 import DisciplineTag from './DisciplineTag.astro';
+import CrewStrip from './CrewStrip.astro';
 ---
 
 <section id="djs" class="bg-ink py-24 md:py-32" data-reveal>
@@ -46,5 +47,7 @@ import DisciplineTag from './DisciplineTag.astro';
         })
       }
     </ul>
+
+    <CrewStrip />
   </div>
 </section>
