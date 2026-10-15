@@ -15,8 +15,8 @@ import ColorKey from './ColorKey.astro';
 
     <ColorKey showLevels={false} class="mt-9" />
 
-    <!-- Every artist gets the same card: 4 across on desktop, 2 on mobile, so
-         the current eight fill every row. -->
+    <!-- Every artist gets the same card: 4 across on desktop, 2 on mobile;
+         the last row may be short. -->
     <div class="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
       {teachingArtists.map((artist, i) => <ArtistCard artist={artist} eager={i < 4} />)}
     </div>

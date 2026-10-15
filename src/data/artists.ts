@@ -31,6 +31,13 @@ export interface Artist {
 
 export const artists: Artist[] = [
   {
+    slug: 'darvin-and-nastia',
+    name: 'Darvin & Nastia',
+    discipline: 'Bachata',
+    city: 'Barcelona',
+    country: 'Spain',
+  },
+  {
     slug: 'danel-and-ariana',
     name: 'Danel & Ariana',
     discipline: 'Bachata',
@@ -94,6 +101,20 @@ export const artists: Artist[] = [
     discipline: 'Salsa Cubana',
     city: 'Oslo',
     country: 'Norway',
+  },
+  {
+    slug: 'hector-oviedo',
+    name: 'Hector Oviedo',
+    discipline: 'Salsa Cubana',
+    city: 'Stockholm',
+    country: 'Sweden',
+  },
+  {
+    slug: 'shay',
+    name: 'Shay',
+    discipline: 'Bachata',
+    city: 'Stockholm',
+    country: 'Sweden',
   },
 ];
 
