@@ -2,7 +2,8 @@ import type { ImageMetadata } from 'astro';
 
 /**
  * 2027 lineup, supplied by the organisers (2026-09-24). Array order is
- * display order.
+ * display order: visiting artists before Stockholm-based ones, alternating
+ * Bachata and Salsa Cubana so every row (and every mobile pair) mixes both.
  *
  * To update the lineup: edit this array and drop a square photo into
  * `src/assets/artists/` named after the `slug`. Nothing else needs changing —
@@ -38,6 +39,12 @@ export const artists: Artist[] = [
     country: 'Spain',
   },
   {
+    slug: 'ismael-and-irene',
+    name: 'Ismael & Irene',
+    discipline: 'Salsa Cubana',
+    country: 'Cuba / Spain',
+  },
+  {
     slug: 'danel-and-ariana',
     name: 'Danel & Ariana',
     discipline: 'Bachata',
@@ -45,10 +52,17 @@ export const artists: Artist[] = [
     country: 'Spain',
   },
   {
-    slug: 'ismael-and-irene',
-    name: 'Ismael & Irene',
+    slug: 'diasmani',
+    name: 'Diasmani',
     discipline: 'Salsa Cubana',
-    country: 'Cuba / Spain',
+    country: 'Cuba',
+  },
+  {
+    slug: 'yordano-and-agnes',
+    name: 'Yordano & Agnes',
+    discipline: 'Salsa Cubana',
+    city: 'Oslo',
+    country: 'Norway',
   },
   {
     slug: 'alberto-and-lisondra',
@@ -83,12 +97,6 @@ export const artists: Artist[] = [
     country: 'Sweden',
   },
   {
-    slug: 'diasmani',
-    name: 'Diasmani',
-    discipline: 'Salsa Cubana',
-    country: 'Cuba',
-  },
-  {
     slug: 'juliette-and-linda',
     name: 'Juliette & Linda',
     discipline: 'Salsa Cubana',
@@ -96,11 +104,11 @@ export const artists: Artist[] = [
     country: 'Sweden',
   },
   {
-    slug: 'yordano-and-agnes',
-    name: 'Yordano & Agnes',
-    discipline: 'Salsa Cubana',
-    city: 'Oslo',
-    country: 'Norway',
+    slug: 'rodrigo-and-lana',
+    name: 'Rodrigo & Lana',
+    discipline: 'Bachata',
+    city: 'Stockholm',
+    country: 'Sweden',
   },
   {
     slug: 'hector-oviedo',
@@ -112,13 +120,6 @@ export const artists: Artist[] = [
   {
     slug: 'shay',
     name: 'Shay',
-    discipline: 'Bachata',
-    city: 'Stockholm',
-    country: 'Sweden',
-  },
-  {
-    slug: 'rodrigo-and-lana',
-    name: 'Rodrigo & Lana',
     discipline: 'Bachata',
     city: 'Stockholm',
     country: 'Sweden',
