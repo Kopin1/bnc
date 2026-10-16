@@ -116,6 +116,13 @@ export const artists: Artist[] = [
     city: 'Stockholm',
     country: 'Sweden',
   },
+  {
+    slug: 'rodrigo-and-lana',
+    name: 'Rodrigo & Lana',
+    discipline: 'Bachata',
+    city: 'Stockholm',
+    country: 'Sweden',
+  },
 ];
 
 /** Everyone in `artists` teaches. Event crew live in `crew.ts`. */

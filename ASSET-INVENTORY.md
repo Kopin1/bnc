@@ -8,7 +8,7 @@ the repo as a **temporary placeholder**. Nothing hotlinks the old site.
 
 | Location | Contents | Why there |
 | --- | --- | --- |
-| `src/assets/artists/` | 12 artist photos | In `src/`, not `public/`, so Astro's image pipeline emits responsive WebP/AVIF at build time. This is what takes the 850 KB originals down to 10–60 KB. |
+| `src/assets/artists/` | 13 artist photos | In `src/`, not `public/`, so Astro's image pipeline emits responsive WebP/AVIF at build time. This is what takes the 850 KB originals down to 10–60 KB. |
 | `src/assets/djs/` | 7 DJ photos | Same. |
 | `public/images/brand/` | Logo, star, OG card | Referenced by URL from `<meta>` tags and the header, so they must keep stable paths. |
 | `public/favicon.ico` | Favicon | From the old theme, unchanged. |
@@ -32,6 +32,7 @@ site renders. Source path: `/sites/default/files/<YYYY-MM>/<name>.jpg`.
 | `artists/darvin-and-nastia.jpg` | Supplied 15 Oct 2026 (`DARVIN & NASTIA.jpg`) | 1080×1080 |
 | `artists/hector-oviedo.jpg` | Supplied 15 Oct 2026 (`HECTOR OVIEDO.jpg`) | 1080×1080 |
 | `artists/shay.jpg` | Supplied 15 Oct 2026 (`SHAY.jpg`) | 1080×1080 |
+| `artists/rodrigo-and-lana.jpg` | Supplied 16 Oct 2026 (`Rodrigo y Lana.jpg`) | 1080×1080 |
 | `djs/dj-isra.jpg` | 2027 DJ folder (`DJ ISRA.jpg`) | 1080×1080 |
 | `djs/dj-poggy.jpg` | 2027 DJ folder (`DJ POGGY.jpg`) | 1080×1080 |
 | `djs/dj-dlux.jpg` | 2027 DJ folder (`DJ DLUX.jpg`) | 1080×1080 |
